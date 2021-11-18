@@ -13,6 +13,7 @@ const ScanQRregister = () => {
     const [data, setdata] = useState([])
     const [iconflash, seticonflash] = useState(false)
     const [backbutton, setbackbutton] = useState(false)
+    const [flashlight, setflashlight] = useState()
     const [TokenJWT, setTokenJWT] = useState("")
 
     const BackbuttonIcon = () => {
@@ -26,7 +27,9 @@ const ScanQRregister = () => {
         if (iconflash == true) {
             return <TurnonFlash />
         }
-        else { return <TurnoffFlash /> }
+        else {
+            return <TurnoffFlash />
+        }
     }
 
     const valTokenJWT = async () => {
@@ -41,11 +44,12 @@ const ScanQRregister = () => {
         }
     }
 
-    const checkid = (id) => {
+    const checkid = async (id) => {
         try {
             fetch('http://192.168.0.9:2030/mobile/register', {
                 method: 'POST',
                 Headers: {
+                    Accept: "*/*",
                     Authorization: "Bearer " + TokenJWT,
                 },
                 body: JSON.stringify({
@@ -55,6 +59,7 @@ const ScanQRregister = () => {
                 .then((response) => response.json())
                 .then((responseJson) => {
                     // setdata(responseJson);
+                    console.log(id)
                     console.log(responseJson)
                 })
         } catch (error) {
@@ -68,7 +73,7 @@ const ScanQRregister = () => {
                 <RNCamera
                     style={styles.preview}
                     type={RNCamera.Constants.Type.back}
-                    flashMode={RNCamera.Constants.FlashMode.on}
+                    flashMode={flashlight}
                     androidCameraPermissionOptions={{
                         title: 'Permission to use camera',
                         message: 'We need your permission to use your camera',
@@ -81,15 +86,21 @@ const ScanQRregister = () => {
                         buttonPositive: 'Ok',
                         buttonNegative: 'Cancel',
                     }}
-                    onBarCodeRead={(qr) => {scanqr(qr)}}>
+                    onBarCodeRead={(qr) => { scanqr(qr) }}>
 
                     <View style={styles.button}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <BackbuttonIcon styles={styles.backbutton} onPress={() => {
-                                setbackbutton(!backbutton)
-                            }} />
+                            <BackbuttonIcon styles={styles.backbutton} onPress={() => setbackbutton(!backbutton)} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.flash} onPress={() => seticonflash(!iconflash)}>
+                        <TouchableOpacity style={styles.flash} onPress={() => {
+                            seticonflash(!iconflash);
+                            if (iconflash == true) {
+                                setflashlight(RNCamera.Constants.FlashMode.off)
+                            }
+                            else {
+                                setflashlight(RNCamera.Constants.FlashMode.torch)
+                            }
+                        }}>
                             <Icon />
                         </TouchableOpacity>
                     </View>

@@ -13,7 +13,6 @@ const Splash = ({navigation}) => {
         <ImageBackground source={SplashBG} style={styles.background}>   
         <Image source={LogoApps} style={styles.logo}/>
         </ImageBackground>
-
     )
 }
 
