@@ -5,6 +5,7 @@ import { blue_main } from "../../utils/constant";
 import { RNCamera } from 'react-native-camera';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import * as SecureStore from 'expo-secure-store';
 
 const ScanQRregister = () => {
     const navigation = useNavigation();
@@ -14,7 +15,6 @@ const ScanQRregister = () => {
     const [iconflash, seticonflash] = useState(false)
     const [backbutton, setbackbutton] = useState(false)
     const [flashlight, setflashlight] = useState()
-    const [TokenJWT, setTokenJWT] = useState("")
 
     const BackbuttonIcon = () => {
         if (iconflash == true) {
@@ -32,11 +32,6 @@ const ScanQRregister = () => {
         }
     }
 
-    const valTokenJWT = async () => {
-        const JWT = await SecureStore.getItemAsync("token")
-        setTokenJWT(JWT)
-    }
-
     const scanqr = (qr) => {
         if (onread) {
             setonread(false);
@@ -45,6 +40,9 @@ const ScanQRregister = () => {
     }
 
     const checkid = async (id) => {
+        const TokenJWT = await SecureStore.getItemAsync("token")
+        console.log(TokenJWT)
+        
         try {
             fetch('http://192.168.0.9:2030/mobile/register', {
                 method: 'POST',
