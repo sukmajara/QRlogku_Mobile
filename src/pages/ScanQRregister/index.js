@@ -56,6 +56,7 @@ const ScanQRregister = () => {
                 .then((response) => response.json())
                 .then((responseJson) => {
                     console.log(responseJson)
+                    navigation.navigate("MainApp")
                 })
         } catch (error) {
             console.warn(error)
