@@ -34,7 +34,7 @@ const Login = () => {
                 .then((response) => response.json())
                 .then((responseJson) => {
                     if (responseJson.token) {
-                        SecureStore.setItemAsync("token",responseJson.token)
+                        SecureStore.setItemAsync("token", responseJson.token)
                         navigation.navigate('MainApp')
                     } else {
                         setinputerror('Email or Password Wrong')
@@ -73,7 +73,7 @@ const Login = () => {
                 />
             </View>
             <View style={styles.errorcontainer}>
-                <Text styles={styles.error}>{inputerror}</Text>
+                <Text style={styles.error} >{inputerror}</Text>
             </View>
             <View style={styles.loginbutton}>
                 <TouchableOpacity >
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     error: {
         fontFamily: 'Arimo-Regular',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 18,
         color: 'red',
         alignSelf: 'center'
     },

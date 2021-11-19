@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ToastAndroid } from 'react-native'
 import { TurnoffFlash, TurnonFlash, BackbuttonWhite, BackButton } from "../../asset";
 import { blue_main } from "../../utils/constant";
 import { RNCamera } from 'react-native-camera';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import * as SecureStore from 'expo-secure-store';
 
 const ScanQRlogin = () => {
     const navigation = useNavigation();
 
+    const [onread, setonread] = useState(true)
     const [data, setdata] = useState([])
     const [iconflash, seticonflash] = useState(false)
-    const [flash, setflash] = useState("")
     const [backbutton, setbackbutton] = useState(false)
+    const [flashlight, setflashlight] = useState()
 
 
     const BackbuttonIcon = () => {
@@ -26,14 +28,10 @@ const ScanQRlogin = () => {
         if (iconflash == true) {
             return <TurnonFlash />
         }
-        else { return <TurnoffFlash /> }
+        else {
+            return <TurnoffFlash />
+        }
     }
-    // const flash = () => {
-    //     if (iconflash == true) {
-    //         return <TurnonFlash />
-    //     }
-    //     else { return <TurnoffFlash /> }
-    // }
 
     return (
         <View style={styles.page}>
@@ -42,7 +40,7 @@ const ScanQRlogin = () => {
 
                     style={styles.preview}
                     type={RNCamera.Constants.Type.back}
-                    flashMode={RNCamera.Constants.FlashMode.on}
+                    flashMode={flashlight}
                     androidCameraPermissionOptions={{
                         title: 'Permission to use camera',
                         message: 'We need your permission to use your camera',
@@ -56,15 +54,22 @@ const ScanQRlogin = () => {
                         buttonNegative: 'Cancel',
                     }}
                     onBarCodeRead={(qr) => { setdata(qr.data) }}>
+
                     <View style={styles.button}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <BackbuttonIcon styles={styles.backbutton} onPress={() => {
-                                setbackbutton(!backbutton)
-                            }} />
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <BackbuttonIcon styles={styles.backbutton} onPress={() => setbackbutton(!backbutton)} />
                         </TouchableOpacity>
-                    <TouchableOpacity style={styles.flash} onPress={() => seticonflash(!iconflash)}>
-                        <Icon/>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.flash} onPress={() => {
+                            seticonflash(!iconflash);
+                            if (iconflash == true) {
+                                setflashlight(RNCamera.Constants.FlashMode.off)
+                            }
+                            else {
+                                setflashlight(RNCamera.Constants.FlashMode.torch)
+                            }
+                        }}>
+                            <Icon />
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.card}>
                         <Text style={styles.scan}>{data}</Text>
@@ -116,11 +121,11 @@ const styles = StyleSheet.create({
         marginTop: 15,
         fontSize: 24
     },
-    backbutton:{
+    backbutton: {
     },
-    button:{
-        flexDirection:'row',
+    button: {
+        flexDirection: 'row',
         marginTop: windowHeight * 0.03,
-        marginLeft:  windowHeight * 0.02,
+        marginLeft: windowHeight * 0.02,
     }
 })
