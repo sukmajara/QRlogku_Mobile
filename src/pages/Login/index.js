@@ -34,14 +34,11 @@ const Login = () => {
                 .then((response) => response.json())
                 .then((responseJson) => {
                     if (responseJson.token) {
-                        console.log(responseJson)
                         SecureStore.setItemAsync("token",responseJson.token)
                         navigation.navigate('MainApp')
-                        // console.warn(responseJson.token)
                     } else {
                         setinputerror('Email or Password Wrong')
                     }
-                    //  console.warn(responseJson)
                 })
         } catch (error) {
             console.warn(error)

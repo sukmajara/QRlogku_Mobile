@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ToastAndroid } from 'react-native'
 import { TurnoffFlash, TurnonFlash, BackbuttonWhite, BackButton } from "../../asset";
 import { blue_main } from "../../utils/constant";
 import { RNCamera } from 'react-native-camera';
@@ -41,14 +41,13 @@ const ScanQRregister = () => {
 
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
-        console.log(TokenJWT)
-        
         try {
             fetch('http://192.168.0.9:2030/mobile/register', {
                 method: 'POST',
-                Headers: {
-                    Accept: "*/*",
-                    Authorization: "Bearer " + TokenJWT,
+                headers: {
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + TokenJWT,
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     auth: id
@@ -56,8 +55,6 @@ const ScanQRregister = () => {
             })
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    // setdata(responseJson);
-                    console.log(id)
                     console.log(responseJson)
                 })
         } catch (error) {
@@ -84,7 +81,7 @@ const ScanQRregister = () => {
                         buttonPositive: 'Ok',
                         buttonNegative: 'Cancel',
                     }}
-                    onBarCodeRead={(qr) => { scanqr(qr) }}>
+                    onBarCodeRead={(qr) =>  scanqr(qr)}>
 
                     <View style={styles.button}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>

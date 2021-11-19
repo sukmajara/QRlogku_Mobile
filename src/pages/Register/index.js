@@ -23,9 +23,6 @@ const Register = () => {
         //     setcontinuebutton(true)
         // }
         try {
-            // eve.holt@reqres.in
-            // cityslicka
-            // fetch('https://reqres.in/api/login', {
             fetch('http://192.168.0.9:2030/mobile/register', {
                 method: 'POST',
                 headers: {
@@ -46,7 +43,6 @@ const Register = () => {
                     } else {
                         navigation.navigate('OTPVerification', { phonenumber, OTPcode: 123456 })
                     }
-                    //  console.warn(responseJson)
                 })
         } catch (error) {
             console.warn(error)
