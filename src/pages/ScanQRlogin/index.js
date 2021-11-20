@@ -33,6 +33,37 @@ const ScanQRlogin = () => {
         }
     }
 
+    const scanqr = (qr) => {
+        if (onread) {
+            setonread(false);
+            checkid(qr.data);
+        }
+    }
+
+    const checkid = async (id) => {
+        const TokenJWT = await SecureStore.getItemAsync("token")
+        try {
+            fetch('http://192.168.0.9:2030/mobile/login', {
+                method: 'POST',
+                headers: {
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + TokenJWT,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    auth: id
+                })
+            })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    console.log(responseJson)
+                    navigation.navigate("MainApp")
+                })
+        } catch (error) {
+            console.warn(error)
+        }
+    }
+
     return (
         <View style={styles.page}>
             <View style={styles.container}>
@@ -53,7 +84,7 @@ const ScanQRlogin = () => {
                         buttonPositive: 'Ok',
                         buttonNegative: 'Cancel',
                     }}
-                    onBarCodeRead={(qr) => { setdata(qr.data) }}>
+                    onBarCodeRead={(qr) => { scanqr(qr) }}>
 
                     <View style={styles.button}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
