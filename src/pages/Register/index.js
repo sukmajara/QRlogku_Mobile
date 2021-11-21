@@ -12,42 +12,34 @@ const Register = () => {
     const [phonenumber, setphonenumber] = useState("")
     const [password, setpassword] = useState("")
     const [confirmpassword, setconfirmpassword] = useState("")
-    const [continuebutton, setcontinuebutton] = useState("")
-    const [inputerror, setinputerror] = useState("")
+    const [nameError, setnameError] = useState("")
+    const [phonenumberError, setphonenumberError] = useState("")
+    const [passwordError, setpasswordError] = useState("")
+    const [confirmpasswordError, setconfirmpasswordError] = useState("")
+    const [emailError, setemailError] = useState("")
+
+    const [continuebutton, setcontinuebutton] = useState(false)
+
 
     const submit = () => {
-        //triger api 
-        // if (phonenumber.length > 9 && phonenumber.length < 13 && phonenumber.substr(0, 1) == '8' && !isNaN(phonenumber))
-        //     setcontinuebutton(false)
-        // else {
-        //     setcontinuebutton(true)
-        // }
-        try {
-            fetch('http://192.168.0.9:2030/mobile/register', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    phoneNumber: phonenumber,
-                    password: password
-                })
-            })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    if (name == "") {
-                        setinputerror('Please check again your form')
-                    } else {
-                        navigation.navigate('OTPVerification', { phonenumber, OTPcode: 123456 })
-                    }
-                })
-        } catch (error) {
-            console.warn(error)
+        if (name == "") {
+            setnameError('Field name must be filled')
         }
-
+        else if (email == "") {
+            setemailError('Field email must be filled')
+        }
+        else if (phonenumber == "") {
+            setphonenumberError('Field Phone Number must be filled')
+        }
+        else if (password == "") {
+            setpasswordError('Field Password must be filled')
+        }
+        else if (confirmpassword == "") {
+            setconfirmpasswordError('Field Confirm Password must be filled')
+        }
+        else {
+            navigation.navigate('OTPVerification', { name, email, password, phonenumber, OTPcode: 123456 })
+        }
     }
     return (
         <SafeAreaView >
@@ -64,10 +56,20 @@ const Register = () => {
                             placeholder={'Enter Full Name'}
                             keyboardType={'default'}
                             onChangeText={(name) => {
+                                if (name.length < 3) {
+                                    setnameError('Field name must be at least 3 characters')
+                                    setcontinuebutton(true)
+                                }
+                                else {
+                                    setnameError("")
+                                    setcontinuebutton(false)
+                                }
                                 setname(name)
                             }}
                             value={name}
                         />
+                        <Text style={styles.error}>{nameError}</Text>
+
                         <Text style={styles.labelemail}>Email Address</Text>
                         <TextInput
                             style={styles.email}
@@ -78,6 +80,8 @@ const Register = () => {
                             }}
                             value={email}
                         />
+                        <Text style={styles.error}>{emailError}</Text>
+
                         <Text style={styles.labelphonenumber}>Phone Number</Text>
                         <View style={styles.phonecontainer}>
                             <Text style={styles.phonecode}>+62</Text>
@@ -86,12 +90,30 @@ const Register = () => {
                                 placeholder={'Enter Phone Number'}
                                 keyboardType={'numeric'}
                                 onChangeText={(phonenumber) => {
+                                    if (phonenumber.substr(0, 1) != '8') {
+                                        setphonenumberError("Phone Number must be start with \"8\"")
+                                        setcontinuebutton(true)
+                                    }
+                                    else if (phonenumber.length < 10) {
+                                        setphonenumberError("Phone Number must more than 10 digit")
+                                        setcontinuebutton(true)
+                                    }
+                                    else if (phonenumber.length > 13) {
+                                        setphonenumberError("Phone Number must less than 13 Digit")
+                                        setcontinuebutton(true)
+                                    }
+                                    else {
+                                        setphonenumberError("")
+                                        setcontinuebutton(false)
+                                    }
                                     setphonenumber(phonenumber)
 
                                 }}
                                 value={phonenumber}
                             />
                         </View>
+                        <Text style={styles.error}>{phonenumberError}</Text>
+
                         <Text style={styles.labelpassword}>Password</Text>
                         <TextInput
                             style={styles.password}
@@ -99,10 +121,20 @@ const Register = () => {
                             secureTextEntry={true}
                             keyboardType={'default'}
                             onChangeText={(password) => {
+                                if (password.length < 6) {
+                                    setpasswordError('Field Passwrod must be at least 6 characters')
+                                    setcontinuebutton(true)
+                                }
+                                else {
+                                    setpasswordError("")
+                                    setcontinuebutton(false)
+                                }
                                 setpassword(password)
                             }}
                             value={password}
                         />
+                        <Text style={styles.error}>{passwordError}</Text>
+
                         <Text style={styles.labelconfirmpassword}>Confirm Password</Text>
                         <TextInput
                             style={styles.confirmpassword}
@@ -110,18 +142,25 @@ const Register = () => {
                             secureTextEntry={true}
                             keyboardType={'default'}
                             onChangeText={(confirmpassword) => {
+                                if (password != confirmpassword) {
+                                    setconfirmpasswordError('Password not match')
+                                    setcontinuebutton(true)
+                                }
+                                else {
+                                    setconfirmpasswordError("")
+                                    setcontinuebutton(false)
+                                }
                                 setconfirmpassword(confirmpassword)
                             }}
                             value={confirmpassword}
                         />
+                        <Text style={styles.error}>{confirmpasswordError}</Text>
                     </View>
-                    <View style={styles.errorcontainer}>
-                        <Text styles={styles.error}>{inputerror}</Text>
-                    </View>
+
                     <ContinueButton
                         style={styles.continuebutton}
                         onPress={submit}
-                    // disabled={continuebutton}
+                        disabled={continuebutton}
                     />
                 </View>
             </ScrollView>
@@ -228,7 +267,7 @@ const styles = StyleSheet.create({
     error: {
         fontFamily: 'Arimo-Regular',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 14,
         color: 'red',
         alignSelf: 'center'
     },

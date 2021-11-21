@@ -7,12 +7,18 @@ import { OTPTextInput } from "react-native-otp-textinput";
 
 const OTPVerification = (props) => {
     const navigation = useNavigation();
+    const [name, setname] = useState(props.route.params.name)
+    const [email, setemail] = useState(props.route.params.email)
     const [phonenumber, setphonenumber] = useState(props.route.params.phonenumber)
+    const [password, setpassword] = useState(props.route.params.password)
+
+
     const [verifOTPcode, setverifOTPcode] = useState(props.route.params.OTPcode)
     const [codeOTP, setcodeOTP] = useState("")
     const [codeOTPerror, setcodeOTPerror] = useState("")
 
     const [counter, setcounter] = useState(59);
+
     useEffect(() => {
         const timer = counter > 0 && setInterval(() => {
             setcounter(counter - 1)
@@ -20,14 +26,34 @@ const OTPVerification = (props) => {
         return () => clearInterval(timer)
 
     }, [counter])
-    
+
     const submit = () => {
-        if (codeOTP != verifOTPcode) {
-            setcodeOTPerror("INVALID OTP CODE")
-        } else {
+        // if (codeOTP != verifOTPcode) {
+        //     setcodeOTPerror("INVALID OTP CODE")
+        // } else {
             setcodeOTPerror("")
-            navigation.navigate('Login')
-        }
+            try {
+                fetch('http://192.168.0.9:2030/user/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        phoneNumber: phonenumber,
+                        password: password
+                    })
+                })
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        navigation.navigate('Login')
+                    })
+            } catch (error) {
+                console.warn(error)
+            }
+        // }
     }
 
     return (
@@ -118,7 +144,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 30,
         marginLeft: 27
-        
+
     },
     codeerror: {
         fontFamily: 'Arimo-Regular',

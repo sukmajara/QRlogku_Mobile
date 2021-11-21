@@ -5,7 +5,7 @@ import { LogoApps, SplashBG } from '../../asset/Images'
 const Splash = ({navigation}) => {
      useEffect(()=>{
          setTimeout(()=>{
-             navigation.replace('MainApp');
+             navigation.replace('Login');
          },3000)
      },[navigation])
      
