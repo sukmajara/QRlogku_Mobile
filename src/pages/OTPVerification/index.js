@@ -28,9 +28,9 @@ const OTPVerification = (props) => {
     }, [counter])
 
     const submit = () => {
-        // if (codeOTP != verifOTPcode) {
-        //     setcodeOTPerror("INVALID OTP CODE")
-        // } else {
+        if (codeOTP != verifOTPcode) {
+            setcodeOTPerror("INVALID OTP CODE")
+        } else {
             setcodeOTPerror("")
             try {
                 fetch('http://192.168.0.9:2030/user/signup', {
@@ -53,7 +53,7 @@ const OTPVerification = (props) => {
             } catch (error) {
                 console.warn(error)
             }
-        // }
+        }
     }
 
     return (
