@@ -10,7 +10,6 @@ const ChangeProfile = () => {
     const [name, setname] = useState("")
     const [email, setemail] = useState("")
     const [phonenumber, setphonenumber] = useState("")
-    const [password, setpassword] = useState("")
     const [image, setimage] = useState("profilepicture")
 
 
@@ -72,17 +71,6 @@ const ChangeProfile = () => {
                                 <ChangePictureButton style={styles.changepicturebutton} onPress={choosePhotoLibrary} />
                             </ImageBackground>
                         </TouchableOpacity>
-                        <Text style={styles.labelpassword}>Password</Text>
-                        <TextInput
-                            style={styles.password}
-                            placeholder={'Enter Password'}
-                            secureTextEntry={true}
-                            keyboardType={'default'}
-                            onChangeText={(password) => {
-                                setpassword(password)
-                            }}
-                            value={password}
-                        />
                     </View>
                     <ContinueButton style={styles.continuebutton} onPress={() => navigation.navigate('OTP')} />
                 </View>

@@ -10,9 +10,10 @@ const MenuQR = () => {
     return (
         <View style={styles.background}>
             <TouchableOpacity style={styles.button} >
-                <View> 
-                <LoginButton1 style={styles.login} onPress={() => navigation.navigate('ScanQRlogin')} />
-                <RegisterButton onPress={() => navigation.navigate('ScanQRregister')} />
+                <Text style={styles.text}>What do you want to do ?</Text>
+                <View>
+                    <LoginButton1 style={styles.login} onPress={() => navigation.navigate('ScanQRlogin')} />
+                    <RegisterButton onPress={() => navigation.navigate('ScanQRregister')} />
                 </View>
             </TouchableOpacity>
         </View>
@@ -29,9 +30,17 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: blue_main
     },
+    text: {
+        fontFamily: 'Arimo-Regular',
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: 'white',
+        alignSelf: 'center',
+        marginBottom:20
+    },
     button: {
         alignSelf: 'center',
-        marginVertical: windowWidth*0.7
+        marginVertical: windowWidth * 0.7
     },
     login: {
         marginBottom: 20
