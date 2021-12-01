@@ -12,6 +12,7 @@ const Register = () => {
     const [phonenumber, setphonenumber] = useState("")
     const [password, setpassword] = useState("")
     const [confirmpassword, setconfirmpassword] = useState("")
+
     const [nameError, setnameError] = useState("")
     const [phonenumberError, setphonenumberError] = useState("")
     const [passwordError, setpasswordError] = useState("")
@@ -76,7 +77,17 @@ const Register = () => {
                             placeholder={'Enter Email Address'}
                             keyboardType={'email-address'}
                             onChangeText={(email) => {
-                                setemail(email)
+                                let regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+                                if (regex.test(email) === false) {
+                                    setemailError("Email not valid")
+                                    setcontinuebutton(true)
+                                    setemail(email)
+                                }
+                                else {
+                                    setemailError("")
+                                    setcontinuebutton(false)
+                                    setemail(email)
+                                }
                             }}
                             value={email}
                         />

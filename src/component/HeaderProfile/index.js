@@ -14,7 +14,7 @@ const HeaderProfile = () => {
 
     const getprofile = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
-        fetch('http://192.168.0.9:2030/user/profile', {
+        fetch('http://192.168.0.11:2030/user/profile', {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,
@@ -36,7 +36,7 @@ const HeaderProfile = () => {
             <View style={styles.info}>
                 <Text style={styles.nama}>{data.name}</Text>
                 <Text style={styles.email}>{data.email}</Text>
-                <Text style={styles.notelfon}>{data.phoneNumber}</Text>
+                <Text style={styles.notelfon}>+62{data.phoneNumber}</Text>
             </View>
 
         </ImageBackground>
@@ -58,30 +58,38 @@ const styles = StyleSheet.create({
         height: 180,
         flexDirection: 'row'
 
+
     },
     profileimage: {
         alignSelf: 'center',
-        borderRadius: 100
+        borderRadius: 100,
+        width:120,
+        height:120
     },
     info: {
         padding:20,
         alignSelf: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        width:"100%",
+        flexShrink: 1,
+        
+
     },
     nama: {
-        fontSize: 20,
+        fontSize: 16,
         color: 'white',
         fontWeight:'bold',
         fontFamily: 'Arimo-Regular'
     },
     email: {
-        fontSize: 20,
+        fontSize: 16,
         color: 'white',
         fontWeight:'bold',
         fontFamily: 'Arimo-Regular'
+
     },
     notelfon: {
-        fontSize: 20,
+        fontSize: 16,
         color: 'white',
         fontWeight:'bold',
         fontFamily: 'Arimo-Regular'

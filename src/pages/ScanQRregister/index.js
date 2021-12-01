@@ -101,7 +101,6 @@ const ScanQRregister = () => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.card}>
-                        <Text style={styles.scan}>{data}</Text>
                         <Text style={styles.scan}>Scan QR to Register</Text>
                     </View>
                 </RNCamera>
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: 200,
         borderRadius: 10,
-        marginTop: windowWidth * 1.3
+        marginTop: windowWidth * 1.2
     },
     scan: {
         alignSelf: 'center',

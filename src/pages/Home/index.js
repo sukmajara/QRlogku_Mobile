@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Dimensions, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import {GradientBG} from '../../asset'
 import { HeaderHome } from '../../component'
 import HomeCard from '../../component/HomeCard'

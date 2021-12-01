@@ -1,4 +1,3 @@
-import { useIsFocused } from '@react-navigation/core'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import {IconScan,Iconhome,IconhomeAktif,Iconprofile,IconprofileAktif, IconscanAktif} from '../../asset'
@@ -8,7 +7,7 @@ const Tabitem = ({isFocused, onPress, onLongPress, label}) => {
     const Icon =()=>{
         if(label==="Home") return isFocused ? <IconhomeAktif/> : <Iconhome/>
         if(label==="Profile") return isFocused ? <IconprofileAktif/> : <Iconprofile/>
-        if(label==="MenuQR") return isFocused ? <IconscanAktif/> : <IconScan/>
+        if(label==="Scan QR") return isFocused ? <IconscanAktif/> : <IconScan/>
 
         return <Iconhome/>
 

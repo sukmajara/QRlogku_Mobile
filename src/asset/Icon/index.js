@@ -23,6 +23,9 @@ import VerifyButton from './VerifyButton.svg';
 import TurnoffFlash from './TurnoffFlash.svg';
 import TurnonFlash from './TurnonFlash.svg';
 import BackbuttonWhite from './BackbuttonWhite.svg';
+import SignoutButton from './SignoutButton.svg';
+
+
 
 
 
@@ -56,5 +59,6 @@ export {
     VerifyButton,
     TurnoffFlash,
     TurnonFlash,
-    BackbuttonWhite
+    BackbuttonWhite,
+    SignoutButton
 };

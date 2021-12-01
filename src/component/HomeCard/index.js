@@ -1,19 +1,24 @@
 import React from 'react'
-import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import CheckBox from '@react-native-community/checkbox';
 import { IconFirefox, IconChrome, DeleteButton } from "../../asset";
 import { useState } from 'react';
-
-const Icon = ({ title }) => {
-    if (title === 'firefox') return <IconFirefox />
-    if (title === 'chrome') return <IconChrome />
-    if (title === 'delete') return <DeleteButton style={styles.delete} />
-
-    return <IconFirefox />
-}
+import { useNavigation } from '@react-navigation/native';
 
 const HomeCard = () => {
+
+    const navigation = useNavigation();
+
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
+
+    const Icon = ({ title }) => {
+        if (title === 'firefox') return <IconFirefox />
+        if (title === 'chrome') return <IconChrome />
+        if (title === 'delete') return <DeleteButton style={styles.delete} />
+
+        return <IconFirefox />
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.application}>Application</Text>
@@ -28,30 +33,19 @@ const HomeCard = () => {
                                     value={toggleCheckBox}
                                     onValueChange={(toggleCheckBox) => setToggleCheckBox(toggleCheckBox)}
                                 />
-                                <Icon title={'chrome'} />
-                                <Text style={styles.name}>PT.Lorem Ipsum</Text>
+                                <TouchableOpacity style={styles.loginbutton} onPress={() => {
+                                    navigation.navigate("ScanQRlogin")
+                                }}>
+                                    <Icon title={'chrome'} />
+                                    <Text style={styles.name}>PT.Lorem Ipsum</Text>
+                                </TouchableOpacity>
                                 <Icon title={'delete'} />
                             </View>
                             <View>
                                 <Text style={styles.login}>Login On Tanggal</Text>
                             </View>
                         </View>
-                        <View style={styles.component}>
-                            <View style={styles.cardtitle}>
-                                <CheckBox
-                                    style={styles.checkbox}
-                                    disabled={false}
-                                    value={toggleCheckBox}
-                                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                                />
-                                <Icon title={'chrome'} />
-                                <Text style={styles.name}>PT.Lorem Ipsum</Text>
-                                <Icon title={'delete'} />
-                            </View>
-                            <View>
-                                <Text style={styles.login}>Login On Tanggal</Text>
-                            </View>
-                        </View>
+
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -61,6 +55,7 @@ const HomeCard = () => {
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
 export default HomeCard
 
 const styles = StyleSheet.create({
@@ -82,8 +77,8 @@ const styles = StyleSheet.create({
         marginLeft: 26,
         marginTop: 10
     },
-    scrollarea:{
-        flex:1
+    scrollarea: {
+        flex: 1
     },
     cardcomponent: {
         marginLeft: 30,
@@ -93,7 +88,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginRight: 30
     },
-
+    loginbutton: {
+        flexDirection: 'row',
+    },
     cardtitle: {
         marginTop: 20,
         flexDirection: 'row',

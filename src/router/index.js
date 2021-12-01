@@ -29,7 +29,7 @@ const MainApp = () => {
     return (
         <Tab.Navigator tabBar={props => <ButtomNavigation {...props}/>}>
             <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-            <Tab.Screen name="MenuQR" component={MenuQr} options={{ headerShown: false }} />
+            <Tab.Screen name="Scan QR" component={ScanQRregister} options={{ headerShown: false }} />
             <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
         </Tab.Navigator>
     )

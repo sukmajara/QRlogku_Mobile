@@ -11,6 +11,7 @@ const Profile = () => {
             <View style={styles.button}>
                 <ButtonIconProfile title={'ChangeProfile'} />
                 <ButtonIconProfile title={'ChangePassword'} />
+                <ButtonIconProfile style={styles.signout} title={'Signout'} />
                 {/* <ButtonIconProfile title={'ActiveDevice'} /> */}
             </View>
         </View>
@@ -37,8 +38,6 @@ const styles = StyleSheet.create({
         
         
     },
-    button: {
-        alignSelf: 'center',
-        padding: 20
-    },
+    
+  
 })

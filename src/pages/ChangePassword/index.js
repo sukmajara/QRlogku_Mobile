@@ -6,9 +6,36 @@ import { useNavigation } from '@react-navigation/native';
 
 const ChangePassword = () => {
     const navigation = useNavigation();
+    
     const [currentpassword, setcurrentpassword] = useState("")
     const [newpassword, setnewpassword] = useState("")
     const [confirmpassword, setconfirmpassword] = useState("")
+
+    const submit = async () => {
+        try {
+            const tokenJWT = await SecureStore.getItemAsync("token")
+
+            fetch('http://192.168.0.11:2030/user/changepassword', {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + tokenJWT
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phoneNumber: phonenumber,
+                })
+            })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    navigation.navigate('Profile')
+                })
+        } catch (error) {
+            console.warn(error)
+        }
+    }
 
     return (
         <View style={styles.page}>
@@ -53,7 +80,7 @@ const ChangePassword = () => {
                     value={confirmpassword}
                 />
             </View>
-            <ContinueButton style={styles.continuebutton} onPress={()=>navigation.navigate('OTP')}/>
+            <ContinueButton style={styles.continuebutton} onPress={submit} />
         </View>
     )
 }
@@ -123,10 +150,10 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 1,
     },
-    continuebutton:{
-        alignSelf:'center',
-        marginTop:40,
-        marginBottom:80
+    continuebutton: {
+        alignSelf: 'center',
+        marginTop: 40,
+        marginBottom: 80
     }
 
 

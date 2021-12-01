@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { BackButton, CreateAccountButton, ResendButton } from "../../asset";
 import { useNavigation } from '@react-navigation/native';
-import { OTPTextInput } from "react-native-otp-textinput";
 
 
 const OTPVerification = (props) => {
@@ -33,7 +32,7 @@ const OTPVerification = (props) => {
         } else {
             setcodeOTPerror("")
             try {
-                fetch('http://192.168.0.9:2030/user/signup', {
+                fetch('http://192.168.0.11:2030/user/signup', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

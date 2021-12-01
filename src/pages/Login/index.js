@@ -16,11 +16,7 @@ const Login = () => {
 
     const submit = async () => {
         try {
-            // eve.holt@reqres.in
-            // cityslicka
-            // fetch('https://reqres.in/api/login', {
-            // fetch('http://192.168.0.5:2030/user/login', {
-            fetch('http://192.168.0.9:2030/user/login', {
+            fetch('http://192.168.0.11:2030/user/login', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
