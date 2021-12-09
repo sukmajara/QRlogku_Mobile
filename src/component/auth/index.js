@@ -15,7 +15,7 @@ const Auth = ({ loadingindicator, screen }) => {
 
         if (tokenJWT) {
             try {
-                fetch('http://192.168.100.13:2030/user/session', {
+                fetch('http://192.168.0.8:2030/user/session', {
                     headers: {
                         Authorization: 'Bearer ' + tokenJWT,
                         Accept: '*/*',

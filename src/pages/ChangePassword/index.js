@@ -35,7 +35,7 @@ const ChangePassword = () => {
             try {
                 const tokenJWT = await SecureStore.getItemAsync("token")
 
-                fetch('http://192.168.100.13:2030/user/changepassword', {
+                fetch('http://192.168.0.8:2030/user/changepassword', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

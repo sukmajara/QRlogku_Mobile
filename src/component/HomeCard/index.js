@@ -16,7 +16,7 @@ const HomeCard = () => {
 
     const getinfo = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
-        fetch('http://192.168.100.13:2030/mobile/', {
+        fetch('http://192.168.0.8:2030/mobile/', {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,
@@ -34,7 +34,7 @@ const HomeCard = () => {
         const home = navigation.addListener("focus", () => {
             getinfo();
         });
-        
+
     });
 
     const Icon = ({ title }) => {
@@ -49,9 +49,10 @@ const HomeCard = () => {
             <Text style={styles.application}>Application</Text>
             <FlatList
                 nestedScrollEnabled={true}
-                data={data.data}
+                data={data.dataUser || data.loginDate}
                 keyExtractor={({ clientinfo }, index) => index}
                 renderItem={({ item }) => {
+                    console.log(item);
                     return (
                         <View style={styles.component}>
                             <View style={styles.card}>
@@ -63,7 +64,7 @@ const HomeCard = () => {
                                         onValueChange={(toggleCheckBox) => setToggleCheckBox(toggleCheckBox)}
                                     />
                                     <TouchableOpacity style={styles.loginbutton} onPress={() => {
-                                        navigation.navigate("ScanQRlogin")
+                                        navigation.navigate('ScanQRlogin',{item})
                                     }}>
                                         <Icon title={'chrome'} />
                                         <Text style={styles.name}>{item.clientInfo}</Text>
@@ -73,10 +74,10 @@ const HomeCard = () => {
                                     <Icon title={'delete'} />
                                 </View>
                             </View>
-                                <View>
-                                    <Text style={styles.username}>Username</Text>
-                                    <Text style={styles.login}>Login On Tanggal</Text>
-                                </View>
+                            <View>
+                                <Text style={styles.username}>{item.clientId}</Text>
+                                <Text style={styles.login}>{item.loginDate}</Text>
+                            </View>
                         </View>
                     )
                 }}
@@ -104,6 +105,15 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.95,
         alignSelf: 'center'
     },
+    error: {
+        alignSelf: 'center',
+        fontFamily: 'Arimo-Regular',
+        fontWeight: 'bold',
+        fontSize: 26,
+        color: 'gray',
+        marginLeft: 26,
+        marginTop: "30%"
+    },
     application: {
         fontFamily: 'Arimo-Regular',
         fontWeight: 'bold',
@@ -130,17 +140,17 @@ const styles = StyleSheet.create({
     },
     deletcontainer: {
         alignSelf: 'flex-end',
-        marginRight:10,
-        marginBottom:10,
+        marginRight: 10,
+        marginBottom: 10,
     },
-    card:{
-        flexDirection:"row",
+    card: {
+        flexDirection: "row",
     },
     cardtitle: {
         marginTop: 20,
         flexDirection: 'row',
-        alignSelf:'center',
-        flex:1
+        alignSelf: 'center',
+        flex: 1
 
     },
     checkbox: {

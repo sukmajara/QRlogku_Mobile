@@ -16,6 +16,8 @@ const ScanQRregister = () => {
     const [backbutton, setbackbutton] = useState(false)
     const [flashlight, setflashlight] = useState()
 
+    const [scan, setscan] = useState("Scan QR to Register")
+
     const BackbuttonIcon = () => {
         if (iconflash == true) {
             return <BackbuttonWhite />
@@ -42,7 +44,7 @@ const ScanQRregister = () => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.100.13:2030/mobile/register', {
+            fetch('http://192.168.0.8:2030/mobile/register', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',
@@ -53,10 +55,14 @@ const ScanQRregister = () => {
                     auth: id
                 })
             })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    console.log(responseJson)
-                    navigation.navigate("MainApp")
+                .then((response) => {
+                    response.json()
+                    const status = response.status
+                    if (status == 200) {
+                        navigation.navigate("MainApp")
+                    } else {
+                        setscan('QR not Valid please scan again!')
+                    }
                 })
         } catch (error) {
             console.warn(error)
@@ -82,7 +88,7 @@ const ScanQRregister = () => {
                         buttonPositive: 'Ok',
                         buttonNegative: 'Cancel',
                     }}
-                    onBarCodeRead={(qr) =>  scanqr(qr)}>
+                    onBarCodeRead={(qr) => scanqr(qr)}>
 
                     <View style={styles.button}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -101,7 +107,7 @@ const ScanQRregister = () => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.card}>
-                        <Text style={styles.scan}>Scan QR to Register</Text>
+                        <Text style={styles.scan}>{scan}</Text>
                     </View>
                 </RNCamera>
             </View>
@@ -140,7 +146,7 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: 200,
         borderRadius: 10,
-        marginTop: windowWidth * 1
+        marginTop: windowWidth * 1.2
     },
     scan: {
         alignSelf: 'center',

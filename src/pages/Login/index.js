@@ -17,7 +17,7 @@ const Login = () => {
 
     const submit = async () => {
         try {
-            fetch('http://192.168.100.13:2030/user/login', {
+            fetch('http://192.168.0.8:2030/user/login', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

@@ -7,16 +7,16 @@ import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 
-const ScanQRlogin = () => {
+const ScanQRlogin = (props) => {
     const navigation = useNavigation();
 
     const [onread, setonread] = useState(true)
-    const [data, setdata] = useState([])
     const [iconflash, seticonflash] = useState(false)
     const [backbutton, setbackbutton] = useState(false)
-    const [flashlight, setflashlight] = useState()
+    const [flashlight, setflashlight] = useState()    
 
-
+    const {clientId} = props.route.params.item
+    console.log(clientId);
     const BackbuttonIcon = () => {
         if (iconflash == true) {
             return <BackbuttonWhite />
@@ -43,7 +43,7 @@ const ScanQRlogin = () => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.100.13:2030/mobile/login', {
+            fetch('http://192.168.0.8:2030/mobile/login', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',
@@ -51,7 +51,8 @@ const ScanQRlogin = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    auth: id
+                    auth: id,
+                    clientId: clientId
                 })
             })
                 .then((response) => response.json())
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: 200,
         borderRadius: 10,
-        marginTop: windowWidth * 1.2
+        marginTop: windowWidth * 1.3
     },
     scan: {
         alignSelf: 'center',
