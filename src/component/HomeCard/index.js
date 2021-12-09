@@ -1,54 +1,89 @@
-import React from 'react'
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { Dimensions, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import CheckBox from '@react-native-community/checkbox';
 import { IconFirefox, IconChrome, DeleteButton } from "../../asset";
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import * as SecureStore from 'expo-secure-store';
+
 
 const HomeCard = () => {
 
     const navigation = useNavigation();
 
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [data, setdata] = useState([])
+
+    const getinfo = async () => {
+        const tokenJWT = await SecureStore.getItemAsync("token")
+        fetch('http://192.168.100.13:2030/mobile/', {
+            method: 'GET',
+            headers: {
+                Authorization: "Bearer " + tokenJWT,
+                Accept: "*/*",
+            },
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                setdata(result)
+            })
+            .catch((error) => console.error(error))
+
+    }
+    useEffect(() => {
+        const home = navigation.addListener("focus", () => {
+            getinfo();
+        });
+        
+    });
 
     const Icon = ({ title }) => {
         if (title === 'firefox') return <IconFirefox />
         if (title === 'chrome') return <IconChrome />
         if (title === 'delete') return <DeleteButton style={styles.delete} />
-
         return <IconFirefox />
     }
 
     return (
         <View style={styles.container}>
             <Text style={styles.application}>Application</Text>
-            <SafeAreaView style={styles.scrollarea}>
-                <ScrollView style={styles.scrollarea}>
-                    <View style={styles.cardcomponent}>
+            <FlatList
+                nestedScrollEnabled={true}
+                data={data.data}
+                keyExtractor={({ clientinfo }, index) => index}
+                renderItem={({ item }) => {
+                    return (
                         <View style={styles.component}>
-                            <View style={styles.cardtitle}>
-                                <CheckBox
-                                    style={styles.checkbox}
-                                    disabled={false}
-                                    value={toggleCheckBox}
-                                    onValueChange={(toggleCheckBox) => setToggleCheckBox(toggleCheckBox)}
-                                />
-                                <TouchableOpacity style={styles.loginbutton} onPress={() => {
-                                    navigation.navigate("ScanQRlogin")
-                                }}>
-                                    <Icon title={'chrome'} />
-                                    <Text style={styles.name}>PT.Lorem Ipsum</Text>
-                                </TouchableOpacity>
-                                <Icon title={'delete'} />
+                            <View style={styles.card}>
+                                <View style={styles.cardtitle}>
+                                    <CheckBox
+                                        style={styles.checkbox}
+                                        disabled={false}
+                                        value={toggleCheckBox}
+                                        onValueChange={(toggleCheckBox) => setToggleCheckBox(toggleCheckBox)}
+                                    />
+                                    <TouchableOpacity style={styles.loginbutton} onPress={() => {
+                                        navigation.navigate("ScanQRlogin")
+                                    }}>
+                                        <Icon title={'chrome'} />
+                                        <Text style={styles.name}>{item.clientInfo}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.deletcontainer}>
+                                    <Icon title={'delete'} />
+                                </View>
                             </View>
-                            <View>
-                                <Text style={styles.login}>Login On Tanggal</Text>
-                            </View>
+                                <View>
+                                    <Text style={styles.username}>Username</Text>
+                                    <Text style={styles.login}>Login On Tanggal</Text>
+                                </View>
                         </View>
-
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
+                    )
+                }}
+            >
+                <View style={styles.cardcomponent}>
+                </View>
+            </FlatList>
         </View >
     )
 }
@@ -86,15 +121,27 @@ const styles = StyleSheet.create({
     },
     component: {
         borderBottomWidth: 1,
-        marginRight: 30
+        marginRight: 30,
+        width: "100%"
+
     },
     loginbutton: {
         flexDirection: 'row',
     },
+    deletcontainer: {
+        alignSelf: 'flex-end',
+        marginRight:10,
+        marginBottom:10,
+    },
+    card:{
+        flexDirection:"row",
+    },
     cardtitle: {
         marginTop: 20,
         flexDirection: 'row',
-        width: '100%'
+        alignSelf:'center',
+        flex:1
+
     },
     checkbox: {
         marginRight: 5,
@@ -110,7 +157,13 @@ const styles = StyleSheet.create({
     },
     delete: {
         alignSelf: 'center',
-        marginLeft: 25
+    },
+    username: {
+        fontFamily: 'Arimo-Regular',
+        fontWeight: 'bold',
+        color: 'black',
+        marginLeft: 90,
+        marginBottom: 10
     },
     login: {
         marginLeft: 90,

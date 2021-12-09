@@ -1,18 +1,21 @@
 import React from 'react'
 import { StyleSheet, Text, View, title, Dimensions, ScrollView } from 'react-native'
+import Auth from '../../component/auth'
 import ButtonIconProfile from '../../component/ButtonIconProfile'
 import HeaderProfile from '../../component/HeaderProfile'
 
 const Profile = () => {
     return (
         <View style={styles.page}>
-            <Text style={styles.pagename}> Profile</Text>
+            <Text style={styles.pagename}>Profile</Text>
             <HeaderProfile />
-            <View style={styles.button}>
+            <View>
                 <ButtonIconProfile title={'ChangeProfile'} />
                 <ButtonIconProfile title={'ChangePassword'} />
-                <ButtonIconProfile style={styles.signout} title={'Signout'} />
+                <ButtonIconProfile title={'Signout'} />
                 {/* <ButtonIconProfile title={'ActiveDevice'} /> */}
+                <Auth loadingindicator={true}/>
+
             </View>
         </View>
     )

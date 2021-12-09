@@ -4,6 +4,7 @@ import { LogoApps, LoginButton2 } from "../../asset";
 import { blue_main } from '../../utils/constant'
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import Auth from '../../component/auth'
 import * as SecureStore from 'expo-secure-store';
 
 
@@ -16,7 +17,7 @@ const Login = () => {
 
     const submit = async () => {
         try {
-            fetch('http://192.168.0.11:2030/user/login', {
+            fetch('http://192.168.100.13:2030/user/login', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -85,6 +86,7 @@ const Login = () => {
                     </TouchableOpacity>
                 </View>
             </View>
+                    <Auth loadingIndicator={false} screen={"MainApp"}/>
         </View>
 
     )

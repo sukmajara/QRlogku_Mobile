@@ -43,7 +43,7 @@ const ScanQRlogin = () => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.0.9:2030/mobile/login', {
+            fetch('http://192.168.100.13:2030/mobile/login', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',
@@ -103,7 +103,6 @@ const ScanQRlogin = () => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.card}>
-                        <Text style={styles.scan}>{data}</Text>
                         <Text style={styles.scan}>Scan QR to Login</Text>
                     </View>
                 </RNCamera>
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: 200,
         borderRadius: 10,
-        marginTop: windowWidth * 1.3
+        marginTop: windowWidth * 1.2
     },
     scan: {
         alignSelf: 'center',

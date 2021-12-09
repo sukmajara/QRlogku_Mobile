@@ -2,38 +2,57 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions } from 'react-native'
 import { BackButton, ContinueButton } from "../../asset";
 import { useNavigation } from '@react-navigation/native';
+import Auth from '../../component/auth';
+import * as SecureStore from 'expo-secure-store';
 
 
 const ChangePassword = () => {
     const navigation = useNavigation();
-    
+
     const [currentpassword, setcurrentpassword] = useState("")
     const [newpassword, setnewpassword] = useState("")
     const [confirmpassword, setconfirmpassword] = useState("")
 
-    const submit = async () => {
-        try {
-            const tokenJWT = await SecureStore.getItemAsync("token")
+    const [currentpassworderror, setcurrentpassworderror] = useState("")
+    const [newpassworderror, setnewpassworderror] = useState("")
+    const [confirmpassworderror, setconfirmpassworderror] = useState("")
 
-            fetch('http://192.168.0.11:2030/user/changepassword', {
-                method: 'PATCH',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + tokenJWT
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    phoneNumber: phonenumber,
+
+    const [continuebutton, setcontinuebutton] = useState(false)
+
+    const submit = async () => {
+        if (currentpassword == "") {
+            setcurrentpassworderror("Current Password Field must be filled")
+        }
+        if (newpassword == "") {
+            setnewpassworderror("New Password Field must be filled")
+        }
+        if (confirmpassword == "") {
+            setconfirmpassworderror("Confirm Password Field must be filled")
+        }
+        else {
+
+            try {
+                const tokenJWT = await SecureStore.getItemAsync("token")
+
+                fetch('http://192.168.100.13:2030/user/changepassword', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer ' + tokenJWT
+                    },
+                    body: JSON.stringify({
+                        password: currentpassword,
+                        newpassword: newpassword,
+                    })
                 })
-            })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    navigation.navigate('Profile')
-                })
-        } catch (error) {
-            console.warn(error)
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        console.log(responseJson)
+                    })
+            } catch (error) {
+                console.warn(error)
+            }
         }
     }
 
@@ -53,34 +72,68 @@ const ChangePassword = () => {
                     secureTextEntry={true}
                     keyboardType={'default'}
                     onChangeText={(currentpassword) => {
+                        setcurrentpassworderror("")
                         setcurrentpassword(currentpassword)
                     }}
                     value={currentpassword}
                 />
+                <Text style={styles.error}>{currentpassworderror}</Text>
+
                 <Text style={styles.labelcurrentpassword}>New Password</Text>
                 <TextInput
                     style={styles.newpassword}
                     placeholder={'Enter New Password'}
                     secureTextEntry={true}
                     keyboardType={'default'}
+                    onBlur={() => {
+                        if (currentpassword == newpassword) {
+                            setnewpassworderror('New Password can\'t be same as before')
+                            setcontinuebutton(true)
+                        }
+                    }}
                     onChangeText={(newpassword) => {
+                        if (newpassword.length < 6) {
+                            setnewpassworderror('Field Passwrod must be at least 6 characters')
+                            setcontinuebutton(true)
+                        }
+                        else {
+                            setnewpassworderror("")
+                            setcontinuebutton(false)
+                        }
                         setnewpassword(newpassword)
                     }}
                     value={newpassword}
                 />
+                <Text style={styles.error}>{newpassworderror}</Text>
                 <Text style={styles.labelconfirmpassword}>Confirm Password</Text>
                 <TextInput
                     style={styles.confirmpassword}
                     placeholder={'Enter Confirm Password'}
                     secureTextEntry={true}
                     keyboardType={'default'}
+                    onBlur={() => {
+                        if (newpassword != confirmpassword) {
+                            setconfirmpassworderror('Password not match')
+                            setcontinuebutton(true)
+                        }
+                        else {
+                            setconfirmpassworderror("")
+                            setcontinuebutton(false)
+                        }
+                    }}
                     onChangeText={(confirmpassword) => {
                         setconfirmpassword(confirmpassword)
                     }}
                     value={confirmpassword}
                 />
+                <Text style={styles.error}>{confirmpassworderror}</Text>
             </View>
-            <ContinueButton style={styles.continuebutton} onPress={submit} />
+            <ContinueButton
+                style={styles.continuebutton}
+                onPress={submit}
+                disabled={continuebutton}
+            />
+            <Auth loadingindicator={true} />
         </View>
     )
 }
@@ -154,6 +207,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 40,
         marginBottom: 80
+    },
+    error: {
+        fontFamily: 'Arimo-Regular',
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: 'red',
+        alignSelf: 'center'
     }
 
 

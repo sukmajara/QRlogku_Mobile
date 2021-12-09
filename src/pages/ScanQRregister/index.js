@@ -42,7 +42,7 @@ const ScanQRregister = () => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.0.9:2030/mobile/register', {
+            fetch('http://192.168.100.13:2030/mobile/register', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: 200,
         borderRadius: 10,
-        marginTop: windowWidth * 1.2
+        marginTop: windowWidth * 1
     },
     scan: {
         alignSelf: 'center',

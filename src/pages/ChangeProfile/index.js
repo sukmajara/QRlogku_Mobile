@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions, SafeAreaView, Scr
 import { BackButton, ChangePictureButton, ContinueButton } from '../../asset';
 import { useNavigation } from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
+import Auth from '../../component/auth';
 import * as SecureStore from 'expo-secure-store';
 
 const ChangeProfile = () => {
@@ -34,7 +35,7 @@ const ChangeProfile = () => {
     const dataform = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
 
-        fetch('http://192.168.0.11:2030/user/profile', {
+        fetch('http://192.168.100.13:2030/user/profile', {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,
@@ -59,7 +60,7 @@ const ChangeProfile = () => {
         try {
             const tokenJWT = await SecureStore.getItemAsync("token")
 
-            fetch('http://192.168.0.11:2030/user/changeprofile', {
+            fetch('http://192.168.100.13:2030/user/changeprofile', {
                 method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',
@@ -72,9 +73,12 @@ const ChangeProfile = () => {
                     phoneNumber: phonenumber,
                 })
             })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    navigation.navigate('Profile')
+                .then((response) => {
+                    const statuscode = response.status
+                    response.json()
+                    if (statuscode==200) {
+                        navigation.navigate("Profile")
+                    }
                 })
         } catch (error) {
             console.warn(error)
@@ -176,6 +180,7 @@ const ChangeProfile = () => {
                         disabled={continuebutton}
                     />
                 </View>
+                <Auth loadingindicator={true}/>
             </ScrollView>
         </SafeAreaView>
     )
