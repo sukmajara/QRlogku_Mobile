@@ -17,7 +17,6 @@ const HomeCard = () => {
 
     const [dataUser, setdataUser] = useState([])
     const [LoginDate, setloginDate] = useState([])
-    // const concat = dataUser.concat(LoginDate)
 
     const Getinfo = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
@@ -30,10 +29,7 @@ const HomeCard = () => {
         })
             .then((response) => response.json())
             .then((result) => {
-                console.log(result.dataUser)
                 setdata(result.dataUser)
-                // setdataUser(result.dataUser)
-                // setloginDate(result.loginDate)
             })
             .catch((error) => console.error(error))
 
