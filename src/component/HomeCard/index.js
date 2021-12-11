@@ -5,7 +5,6 @@ import { IconFirefox, IconChrome, DeleteButton } from "../../asset";
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
-import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 
 
 const HomeCard = () => {
@@ -36,7 +35,7 @@ const HomeCard = () => {
     }
     useEffect(() => {
         const home = navigation.addListener("focus", () => {
-            getinfo();
+            Getinfo();
         });
 
     });
