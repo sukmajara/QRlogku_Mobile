@@ -14,7 +14,7 @@ const HeaderProfile = () => {
 
     const getprofile = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
-        fetch('http://192.168.0.8:2030/user/profile', {
+        fetch('http://192.168.0.9:2030/user/profile', {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,

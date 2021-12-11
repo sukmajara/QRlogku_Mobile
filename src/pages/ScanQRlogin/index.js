@@ -43,7 +43,7 @@ const ScanQRlogin = (props) => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.0.8:2030/mobile/login', {
+            fetch('http://192.168.0.9:2030/mobile/login', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',
@@ -58,7 +58,7 @@ const ScanQRlogin = (props) => {
                 .then((response) => response.json())
                 .then((responseJson) => {
                     console.log(responseJson)
-                    navigation.navigate("MainApp")
+                    navigation.navigate("Home")
                 })
         } catch (error) {
             console.warn(error)

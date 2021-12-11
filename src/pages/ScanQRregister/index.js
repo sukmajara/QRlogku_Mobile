@@ -44,7 +44,7 @@ const ScanQRregister = () => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.0.8:2030/mobile/register', {
+            fetch('http://192.168.0.9:2030/mobile/register', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',
@@ -59,7 +59,7 @@ const ScanQRregister = () => {
                     response.json()
                     const status = response.status
                     if (status == 200) {
-                        navigation.navigate("MainApp")
+                        navigation.navigate("Home")
                     } else {
                         setscan('QR not Valid please scan again!')
                     }

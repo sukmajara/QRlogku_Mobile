@@ -5,18 +5,23 @@ import { IconFirefox, IconChrome, DeleteButton } from "../../asset";
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
+import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 
 
 const HomeCard = () => {
 
     const navigation = useNavigation();
-
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
+
     const [data, setdata] = useState([])
 
-    const getinfo = async () => {
+    const [dataUser, setdataUser] = useState([])
+    const [LoginDate, setloginDate] = useState([])
+    // const concat = dataUser.concat(LoginDate)
+
+    const Getinfo = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
-        fetch('http://192.168.0.8:2030/mobile/', {
+        fetch('http://192.168.0.9:2030/mobile/', {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,
@@ -25,7 +30,10 @@ const HomeCard = () => {
         })
             .then((response) => response.json())
             .then((result) => {
-                setdata(result)
+                console.log(result.dataUser)
+                setdata(result.dataUser)
+                // setdataUser(result.dataUser)
+                // setloginDate(result.loginDate)
             })
             .catch((error) => console.error(error))
 
@@ -49,10 +57,10 @@ const HomeCard = () => {
             <Text style={styles.application}>Application</Text>
             <FlatList
                 nestedScrollEnabled={true}
-                data={data.dataUser || data.loginDate}
-                keyExtractor={({ clientinfo }, index) => index}
+                data={data}
+                keyExtractor={({ data }, index) => index}
                 renderItem={({ item }) => {
-                    console.log(item);
+                    console.log(item)
                     return (
                         <View style={styles.component}>
                             <View style={styles.card}>
@@ -64,9 +72,9 @@ const HomeCard = () => {
                                         onValueChange={(toggleCheckBox) => setToggleCheckBox(toggleCheckBox)}
                                     />
                                     <TouchableOpacity style={styles.loginbutton} onPress={() => {
-                                        navigation.navigate('ScanQRlogin',{item})
+                                        navigation.navigate('ScanQRlogin', { item })
                                     }}>
-                                        <Icon title={'chrome'} />
+                                        {/* <Icon title={'chrome'} /> */}
                                         <Text style={styles.name}>{item.clientInfo}</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -78,10 +86,10 @@ const HomeCard = () => {
                                 <Text style={styles.username}>{item.clientId}</Text>
                                 <Text style={styles.login}>{item.loginDate}</Text>
                             </View>
+
                         </View>
                     )
-                }}
-            >
+                }}>
                 <View style={styles.cardcomponent}>
                 </View>
             </FlatList>
@@ -163,7 +171,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 24,
         color: 'black',
-        marginLeft: 10
+        marginLeft: 5
     },
     delete: {
         alignSelf: 'center',
@@ -172,11 +180,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Arimo-Regular',
         fontWeight: 'bold',
         color: 'black',
-        marginLeft: 90,
+        marginLeft: 45,
         marginBottom: 10
     },
     login: {
-        marginLeft: 90,
+        marginLeft: 45,
         marginBottom: 10
     }
 
