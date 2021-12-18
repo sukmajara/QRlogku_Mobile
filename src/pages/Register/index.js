@@ -39,7 +39,7 @@ const Register = () => {
             setconfirmpasswordError('Field Confirm Password must be filled')
         }
         else {
-            navigation.navigate('OTPVerification', { name, email, password, phonenumber, OTPcode: 123456 })
+            navigation.navigate('OTPVerification', { name: name, email: email, password: password, phonenumber: phonenumber, OTPcode: 123456 })
         }
     }
     return (

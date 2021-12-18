@@ -67,13 +67,10 @@ const styles = StyleSheet.create({
         height:120
     },
     info: {
-        padding:20,
         alignSelf: 'center',
         alignItems: 'center',
-        width:"100%",
-        flexShrink: 1,
-        
-
+        paddingLeft: 10
+        // flexShrink: 1,
     },
     nama: {
         fontSize: 16,
@@ -85,7 +82,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'white',
         fontWeight:'bold',
-        fontFamily: 'Arimo-Regular'
+        fontFamily: 'Arimo-Regular',
 
     },
     notelfon: {

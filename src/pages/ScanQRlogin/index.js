@@ -13,7 +13,8 @@ const ScanQRlogin = (props) => {
     const [onread, setonread] = useState(true)
     const [iconflash, seticonflash] = useState(false)
     const [backbutton, setbackbutton] = useState(false)
-    const [flashlight, setflashlight] = useState()    
+    const [flashlight, setflashlight] = useState()  
+    const [qrerror, setqrerror] = useState("Scan QR for Login")  
 
     const {clientId} = props.route.params.item
     console.log(clientId);
@@ -55,11 +56,17 @@ const ScanQRlogin = (props) => {
                     clientId: clientId
                 })
             })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    console.log(responseJson)
+                .then((response) => {
+                    response.json()
+                const status = response.status
+                if (status == 200) {
                     navigation.navigate("Home")
+                }
+                else{ 
+                setqrerror("QR code not valid or Make sure QR code is for login")}
+                setonread(true);
                 })
+                
         } catch (error) {
             console.warn(error)
         }
@@ -104,7 +111,7 @@ const ScanQRlogin = (props) => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.card}>
-                        <Text style={styles.scan}>Scan QR to Login</Text>
+                        <Text style={styles.scan}>{qrerror}</Text>
                     </View>
                 </RNCamera>
             </View>

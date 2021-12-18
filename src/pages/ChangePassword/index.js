@@ -43,13 +43,18 @@ const ChangePassword = () => {
                     },
                     body: JSON.stringify({
                         password: currentpassword,
-                        newpassword: newpassword,
+                        newPassword: newpassword,
                     })
                 })
-                    .then((response) => response.json())
-                    .then((responseJson) => {
-                        console.log(responseJson)
+                    .then((response) => {
+                        response.json()
+                        const status = response.status 
+                        if (status == 200) {
+                            navigation.navigate("Profile")
+                        }
+                        else{setcurrentpassworderror("Current Password Wrong")}
                     })
+                    
             } catch (error) {
                 console.warn(error)
             }

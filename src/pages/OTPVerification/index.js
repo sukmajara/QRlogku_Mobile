@@ -32,7 +32,7 @@ const OTPVerification = (props) => {
         } else {
             setcodeOTPerror("")
             try {
-                fetch('http://192.168.0.9:2030/user/signup', {
+                fetch('http://192.168.0.9:2030/user/register', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -45,10 +45,18 @@ const OTPVerification = (props) => {
                         password: password
                     })
                 })
-                    .then((response) => response.json())
-                    .then((responseJson) => {
-                        navigation.navigate('Login')
+                    .then((response) => {
+                        response.json()
+                        const status = response.status
+
+                        if (status == 200) {
+                            navigation.navigate("Login")
+                        }
+                        else(
+                            navigation.navigate("Register")
+                        )
                     })
+                   
             } catch (error) {
                 console.warn(error)
             }

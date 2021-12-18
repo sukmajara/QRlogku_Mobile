@@ -13,6 +13,7 @@ const HomeCard = () => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
     const [data, setdata] = useState([])
+    const [show, setshow] = useState(false)
 
     const [dataUser, setdataUser] = useState([])
     const [LoginDate, setloginDate] = useState([])
@@ -29,6 +30,7 @@ const HomeCard = () => {
             .then((response) => response.json())
             .then((result) => {
                 setdata(result.dataUser)
+                
             })
             .catch((error) => console.error(error))
 
@@ -47,12 +49,22 @@ const HomeCard = () => {
         return <IconFirefox />
     }
 
+    const empty = () => {
+        return(
+            <View style={styles.emptycontainer}>
+            <Text style={styles.empty}>Application data not available</Text>
+            <Text style={styles.empty}>Please Scan QR!</Text>
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.application}>Application</Text>
             <FlatList
                 nestedScrollEnabled={true}
                 data={data}
+                ListEmptyComponent={empty}
                 keyExtractor={({ data }, index) => index}
                 renderItem={({ item }) => {
                     console.log(item)
@@ -79,7 +91,7 @@ const HomeCard = () => {
                             </View>
                             <View>
                                 <Text style={styles.username}>{item.clientId}</Text>
-                                <Text style={styles.login}>{item.loginDate}</Text>
+                                {/* <Text style={styles.login}>{item.loginDate}</Text> */}
                             </View>
 
                         </View>
@@ -181,6 +193,17 @@ const styles = StyleSheet.create({
     login: {
         marginLeft: 45,
         marginBottom: 10
+    },
+    emptycontainer:{
+        marginTop:windowHeight*0.14
+    },
+    empty:{
+        fontFamily: 'Arimo-Regular',
+        fontWeight: 'bold',
+        fontSize: 24,
+        color: '#CDCBCB',
+        alignSelf: 'center',
+
     }
 
 })
