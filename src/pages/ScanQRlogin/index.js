@@ -13,10 +13,10 @@ const ScanQRlogin = (props) => {
     const [onread, setonread] = useState(true)
     const [iconflash, seticonflash] = useState(false)
     const [backbutton, setbackbutton] = useState(false)
-    const [flashlight, setflashlight] = useState()  
-    const [qrerror, setqrerror] = useState("Scan QR for Login")  
+    const [flashlight, setflashlight] = useState()
+    const [qrerror, setqrerror] = useState("Scan QR for Login")
 
-    const {clientId} = props.route.params.item
+    const { clientId } = props.route.params.item
     console.log(clientId);
     const BackbuttonIcon = () => {
         if (iconflash == true) {
@@ -44,7 +44,7 @@ const ScanQRlogin = (props) => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.0.9:2030/mobile/login', {
+            fetch('http://192.168.0.10:2030/mobile/login', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',
@@ -58,15 +58,14 @@ const ScanQRlogin = (props) => {
             })
                 .then((response) => {
                     response.json()
-                const status = response.status
-                if (status == 200) {
-                    navigation.navigate("Home")
-                }
-                else{ 
-                setqrerror("QR code not valid or Make sure QR code is for login")}
-                setonread(true);
+                    const status = response.status
+                    if (status == 200) {
+                        navigation.navigate("Home")
+                    }
+                    else {
+                        setqrerror("QR code not valid or Make sure QR code is for login")
+                    }
                 })
-                
         } catch (error) {
             console.warn(error)
         }
@@ -76,7 +75,6 @@ const ScanQRlogin = (props) => {
         <View style={styles.page}>
             <View style={styles.container}>
                 <RNCamera
-
                     style={styles.preview}
                     type={RNCamera.Constants.Type.back}
                     flashMode={flashlight}

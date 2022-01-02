@@ -32,7 +32,7 @@ const OTPVerification = (props) => {
         } else {
             setcodeOTPerror("")
             try {
-                fetch('http://192.168.0.9:2030/user/register', {
+                fetch('http://192.168.0.10:2030/user/register', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Dimensions, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, FlatList, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import CheckBox from '@react-native-community/checkbox';
 import { IconFirefox, IconChrome, DeleteButton } from "../../asset";
 import { useState } from 'react';
@@ -20,7 +20,7 @@ const HomeCard = () => {
 
     const Getinfo = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
-        fetch('http://192.168.0.9:2030/mobile/', {
+        fetch('http://192.168.0.10:2030/mobile/home', {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,
@@ -30,7 +30,7 @@ const HomeCard = () => {
             .then((response) => response.json())
             .then((result) => {
                 setdata(result.dataUser)
-                
+
             })
             .catch((error) => console.error(error))
 
@@ -42,6 +42,53 @@ const HomeCard = () => {
 
     });
 
+    const terminate = async (id) => {
+        const tokenJWT = await SecureStore.getItemAsync("token")
+        try {
+            fetch('http://192.168.0.10:2030/mobile/terminate', {
+                method: 'DELETE',
+                headers: {
+                    Authorization: "Bearer " + tokenJWT,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    clientId: id
+                })
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result)
+                })
+        } catch (error) {
+            console.warn(error)
+        }
+    }
+
+    const status = async (id, status) => {
+        const tokenJWT = await SecureStore.getItemAsync("token")
+        try {
+            fetch('http://192.168.0.10:2030/mobile/changestatus', {
+                method: 'PATCH',
+                headers: {
+                    Authorization: "Bearer " + tokenJWT,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    clientId: id,
+                    status: status
+                })
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result)
+                })
+        } catch (error) {
+            console.warn(error)
+        }
+    }
+
     const Icon = ({ title }) => {
         if (title === 'firefox') return <IconFirefox />
         if (title === 'chrome') return <IconChrome />
@@ -50,14 +97,24 @@ const HomeCard = () => {
     }
 
     const empty = () => {
-        return(
+        return (
             <View style={styles.emptycontainer}>
-            <Text style={styles.empty}>Application data not available</Text>
-            <Text style={styles.empty}>Please Scan QR!</Text>
+                <Text style={styles.empty}>Application data not available</Text>
+                <Text style={styles.empty}>Please Scan QR!</Text>
             </View>
         )
     }
 
+    const [refreshing, setRefreshing] = React.useState(false);
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+      }
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        Getinfo();
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
+    
     return (
         <View style={styles.container}>
             <Text style={styles.application}>Application</Text>
@@ -66,18 +123,24 @@ const HomeCard = () => {
                 data={data}
                 ListEmptyComponent={empty}
                 keyExtractor={({ data }, index) => index}
+                refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
                 renderItem={({ item }) => {
-                    console.log(item)
+                    // console.log(item)
                     return (
                         <View style={styles.component}>
                             <View style={styles.card}>
                                 <View style={styles.cardtitle}>
-                                    <CheckBox
+                                    {/* <CheckBox
                                         style={styles.checkbox}
                                         disabled={false}
                                         value={toggleCheckBox}
                                         onValueChange={(toggleCheckBox) => setToggleCheckBox(toggleCheckBox)}
-                                    />
+                                    /> */}
                                     <TouchableOpacity style={styles.loginbutton} onPress={() => {
                                         navigation.navigate('ScanQRlogin', { item })
                                     }}>
@@ -85,13 +148,20 @@ const HomeCard = () => {
                                         <Text style={styles.name}>{item.clientInfo}</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={styles.deletcontainer}>
-                                    <Icon title={'delete'} />
-                                </View>
+                                <TouchableOpacity style={styles.deletcontainer} onPress={() => {
+                                    status(item.clientId, item.status);
+                                    terminate(item.clientId);
+                                    Getinfo();
+                                }}>
+                                    <View>
+                                        <Icon title={'delete'} />
+                                    </View>
+                                </TouchableOpacity>
                             </View>
                             <View>
                                 <Text style={styles.username}>{item.clientId}</Text>
-                                {/* <Text style={styles.login}>{item.loginDate}</Text> */}
+                                <Text style={styles.login}>{item.status}</Text>
+
                             </View>
 
                         </View>
@@ -178,7 +248,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 24,
         color: 'black',
-        marginLeft: 5
+        marginLeft: 26
     },
     delete: {
         alignSelf: 'center',
@@ -187,17 +257,17 @@ const styles = StyleSheet.create({
         fontFamily: 'Arimo-Regular',
         fontWeight: 'bold',
         color: 'black',
-        marginLeft: 45,
+        marginLeft: 26,
         marginBottom: 10
     },
     login: {
-        marginLeft: 45,
+        marginLeft: 26,
         marginBottom: 10
     },
-    emptycontainer:{
-        marginTop:windowHeight*0.14
+    emptycontainer: {
+        marginTop: windowHeight * 0.14
     },
-    empty:{
+    empty: {
         fontFamily: 'Arimo-Regular',
         fontWeight: 'bold',
         fontSize: 24,

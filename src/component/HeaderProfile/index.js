@@ -14,7 +14,7 @@ const HeaderProfile = () => {
 
     const getprofile = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
-        fetch('http://192.168.0.9:2030/user/profile', {
+        fetch('http://192.168.0.10:2030/user/profile', {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,
@@ -32,11 +32,13 @@ const HeaderProfile = () => {
     });
     return (
         <ImageBackground source={HeaderCardProfile} style={styles.container}>
-            <Image source={ProfilePicture} style={styles.profileimage} />
-            <View style={styles.info}>
-                <Text style={styles.nama}>{data.name}</Text>
-                <Text style={styles.email}>{data.email}</Text>
-                <Text style={styles.notelfon}>+62{data.phoneNumber}</Text>
+            <View style={styles.card}>
+                <Image source={ProfilePicture} style={styles.profileimage} />
+                <View style={styles.info}>
+                    <Text style={styles.nama}>{data.name}</Text>
+                    <Text style={styles.email}>{data.email}</Text>
+                    <Text style={styles.notelfon}>+62{data.phoneNumber}</Text>
+                </View>
             </View>
 
         </ImageBackground>
@@ -60,35 +62,40 @@ const styles = StyleSheet.create({
 
 
     },
+    card:{
+        alignSelf:'center',
+        flexDirection: 'row',
+        alignContent : 'center',
+    },
     profileimage: {
         alignSelf: 'center',
         borderRadius: 100,
-        width:120,
-        height:120
+        width: 120,
+        height: 120
     },
     info: {
         alignSelf: 'center',
         alignItems: 'center',
-        paddingLeft: 10
-        // flexShrink: 1,
+        flexShrink: 1,
+        flex:1
     },
     nama: {
         fontSize: 16,
         color: 'white',
-        fontWeight:'bold',
+        fontWeight: 'bold',
         fontFamily: 'Arimo-Regular'
     },
     email: {
         fontSize: 16,
         color: 'white',
-        fontWeight:'bold',
+        fontWeight: 'bold',
         fontFamily: 'Arimo-Regular',
 
     },
     notelfon: {
         fontSize: 16,
         color: 'white',
-        fontWeight:'bold',
+        fontWeight: 'bold',
         fontFamily: 'Arimo-Regular'
     }
 })
