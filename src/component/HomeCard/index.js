@@ -10,7 +10,6 @@ import * as SecureStore from 'expo-secure-store';
 const HomeCard = () => {
 
     const navigation = useNavigation();
-    const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
     const [data, setdata] = useState([])
     const [show, setshow] = useState(false)
@@ -58,36 +57,36 @@ const HomeCard = () => {
             })
                 .then((response) => response.json())
                 .then((result) => {
-                    console.log(result)
+                    // console.log(result)
                 })
         } catch (error) {
             console.warn(error)
         }
     }
 
-    const status = async (id, status) => {
-        const tokenJWT = await SecureStore.getItemAsync("token")
-        try {
-            fetch('http://192.168.0.10:2030/mobile/changestatus', {
-                method: 'PATCH',
-                headers: {
-                    Authorization: "Bearer " + tokenJWT,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    clientId: id,
-                    status: status
-                })
-            })
-                .then((response) => response.json())
-                .then((result) => {
-                    console.log(result)
-                })
-        } catch (error) {
-            console.warn(error)
-        }
-    }
+    // const status = async (id, status) => {
+    //     const tokenJWT = await SecureStore.getItemAsync("token")
+    //     try {
+    //         fetch('http://192.168.0.10:2030/mobile/changestatus', {
+    //             method: 'PATCH',
+    //             headers: {
+    //                 Authorization: "Bearer " + tokenJWT,
+    //                 'Accept': 'application/json',
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 clientId: id,
+    //                 status: status
+    //             })
+    //         })
+    //             .then((response) => response.json())
+    //             .then((result) => {
+    //                 // console.log(result)
+    //             })
+    //     } catch (error) {
+    //         console.warn(error)
+    //     }
+    // }
 
     const Icon = ({ title }) => {
         if (title === 'firefox') return <IconFirefox />
@@ -108,13 +107,13 @@ const HomeCard = () => {
     const [refreshing, setRefreshing] = React.useState(false);
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
-      }
+    }
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         Getinfo();
         wait(2000).then(() => setRefreshing(false));
-      }, []);
-    
+    }, []);
+
     return (
         <View style={styles.container}>
             <Text style={styles.application}>Application</Text>
@@ -125,22 +124,15 @@ const HomeCard = () => {
                 keyExtractor={({ data }, index) => index}
                 refreshControl={
                     <RefreshControl
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
                     />
-                  }
+                }
                 renderItem={({ item }) => {
-                    // console.log(item)
                     return (
                         <View style={styles.component}>
                             <View style={styles.card}>
                                 <View style={styles.cardtitle}>
-                                    {/* <CheckBox
-                                        style={styles.checkbox}
-                                        disabled={false}
-                                        value={toggleCheckBox}
-                                        onValueChange={(toggleCheckBox) => setToggleCheckBox(toggleCheckBox)}
-                                    /> */}
                                     <TouchableOpacity style={styles.loginbutton} onPress={() => {
                                         navigation.navigate('ScanQRlogin', { item })
                                     }}>
@@ -149,7 +141,7 @@ const HomeCard = () => {
                                     </TouchableOpacity>
                                 </View>
                                 <TouchableOpacity style={styles.deletcontainer} onPress={() => {
-                                    status(item.clientId, item.status);
+                                    // status(item.clientId, item.status);
                                     terminate(item.clientId);
                                     Getinfo();
                                 }}>

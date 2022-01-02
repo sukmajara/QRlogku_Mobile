@@ -33,7 +33,7 @@ const HeaderProfile = () => {
     return (
         <ImageBackground source={HeaderCardProfile} style={styles.container}>
             <View style={styles.card}>
-                <Image source={ProfilePicture} style={styles.profileimage} />
+                {/* <Image source={ProfilePicture} style={styles.profileimage} /> */}
                 <View style={styles.info}>
                     <Text style={styles.nama}>{data.name}</Text>
                     <Text style={styles.email}>{data.email}</Text>

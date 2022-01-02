@@ -17,7 +17,6 @@ const ScanQRlogin = (props) => {
     const [qrerror, setqrerror] = useState("Scan QR for Login")
 
     const { clientId } = props.route.params.item
-    console.log(clientId);
     const BackbuttonIcon = () => {
         if (iconflash == true) {
             return <BackbuttonWhite />

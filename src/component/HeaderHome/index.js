@@ -40,7 +40,7 @@ const HeaderHome = () => {
                     <Text style={styles.Name}>{data.name}</Text>
                 </View>
                 <View style={styles.headerimage}>
-                    <Image source={ProfilePicture} style={styles.profileimage} />
+                    {/* <Image source={ProfilePicture} style={styles.profileimage} /> */}
                 </View>
             </ImageBackground>
         </View>
