@@ -14,6 +14,7 @@ const ChangeProfile = () => {
     const [phonenumber, setphonenumber] = useState()
     const [image, setimage] = useState("profilepicture")
 
+    const [error, seterror] = useState("")
     const [nameError, setnameError] = useState("")
     const [phonenumberError, setphonenumberError] = useState("")
     const [emailError, setemailError] = useState("")
@@ -76,113 +77,114 @@ const ChangeProfile = () => {
                 .then((response) => {
                     const statuscode = response.status
                     response.json()
-                    if (statuscode==200) {
+                    if (statuscode == 200) {
                         navigation.navigate("Profile")
                     }
-                })
+                    else
+                    {
+                        seterror("Email / Phone number already registered")
+                    }
+                })  
         } catch (error) {
             console.warn(error)
         }
     }
     return (
-        <SafeAreaView>
-            <ScrollView>
+        <View style={styles.page}>
+            <TouchableOpacity style={styles.backbutton}>
+                <BackButton onPress={() => navigation.goBack()} />
+            </TouchableOpacity>
+            <Text style={styles.pagename}> Edit Profile</Text>
+            <Text style={styles.error}>{error}</Text>
+            <View style={styles.form}>
+                <Text style={styles.labelname}>Full Name</Text>
+                <TextInput
+                    style={styles.name}
+                    placeholder={'Enter Full Name'}
+                    keyboardType={'default'}
+                    onChangeText={(name) => {
+                        if (name.length < 3) {
+                            setnameError('Field name must be at least 3 characters')
+                            setcontinuebutton(true)
+                        }
+                        else {
+                            setnameError("")
+                            setcontinuebutton(false)
+                        }
+                        setname(name)
+                    }}
+                    value={name}
+                />
+                <Text style={styles.error}>{nameError}</Text>
 
-                <View style={styles.page}>
-                    <TouchableOpacity style={styles.backbutton}>
-                        <BackButton onPress={() => navigation.goBack()} />
-                    </TouchableOpacity>
-                    <Text style={styles.pagename}> Edit Profile</Text>
-                    <View style={styles.form}>
-                        <Text style={styles.labelname}>Full Name</Text>
-                        <TextInput
-                            style={styles.name}
-                            placeholder={'Enter Full Name'}
-                            keyboardType={'default'}
-                            onChangeText={(name) => {
-                                if (name.length < 3) {
-                                    setnameError('Field name must be at least 3 characters')
-                                    setcontinuebutton(true)
-                                }
-                                else {
-                                    setnameError("")
-                                    setcontinuebutton(false)
-                                }
-                                setname(name)
-                            }}
-                            value={name}
-                        />
-                        <Text style={styles.error}>{nameError}</Text>
+                <Text style={styles.labelemail}>Email Address</Text>
+                <TextInput
+                    style={styles.email}
+                    placeholder={'Enter Email Address'}
+                    keyboardType={'email-address'}
+                    onChangeText={(email) => {
+                        let regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+                        if (regex.test(email) === false) {
+                            setemailError("Email not valid")
+                            setcontinuebutton(true)
+                            setemail(email)
+                        }
+                        else {
+                            setemailError("")
+                            setcontinuebutton(false)
+                            setemail(email)
+                        }
+                    }}
+                    value={email}
+                />
+                <Text style={styles.error}>{emailError}</Text>
 
-                        <Text style={styles.labelemail}>Email Address</Text>
-                        <TextInput
-                            style={styles.email}
-                            placeholder={'Enter Email Address'}
-                            keyboardType={'email-address'}
-                            onChangeText={(email) => {
-                                let regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-                                if (regex.test(email)===false) {
-                                    setemailError("Email not valid")
-                                    setcontinuebutton(true)
-                                    setemail(email)
-                                }
-                                else {
-                                    setemailError("")
-                                    setcontinuebutton(false)
-                                    setemail(email)
-                                }
-                            }}
-                            value={email}
-                        />
-                        <Text style={styles.error}>{emailError}</Text>
+                <Text style={styles.labelphonenumber}>Phone Number</Text>
+                <View style={styles.phonecontainer}>
+                    <Text style={styles.phonecode}>+62</Text>
+                    <TextInput
+                        style={styles.phonenumber}
+                        placeholder={'Enter Phone Number'}
+                        keyboardType={'numeric'}
+                        onChangeText={(phonenumber) => {
+                            if (phonenumber.substr(0, 1) != '8') {
+                                setphonenumberError("Phone Number must be start with \"8\"")
+                                setcontinuebutton(true)
+                            }
+                            else if (phonenumber.length < 10) {
+                                setphonenumberError("Phone Number must more than 10 digit")
+                                setcontinuebutton(true)
+                            }
+                            else if (phonenumber.length > 13) {
+                                setphonenumberError("Phone Number must less than 13 Digit")
+                                setcontinuebutton(true)
+                            }
+                            else {
+                                setphonenumberError("")
+                                setcontinuebutton(false)
+                            }
+                            setphonenumber(phonenumber)
 
-                        <Text style={styles.labelphonenumber}>Phone Number</Text>
-                        <View style={styles.phonecontainer}>
-                            <Text style={styles.phonecode}>+62</Text>
-                            <TextInput
-                                style={styles.phonenumber}
-                                placeholder={'Enter Phone Number'}
-                                keyboardType={'numeric'}
-                                onChangeText={(phonenumber) => {
-                                    if (phonenumber.substr(0, 1) != '8') {
-                                        setphonenumberError("Phone Number must be start with \"8\"")
-                                        setcontinuebutton(true)
-                                    }
-                                    else if (phonenumber.length < 10) {
-                                        setphonenumberError("Phone Number must more than 10 digit")
-                                        setcontinuebutton(true)
-                                    }
-                                    else if (phonenumber.length > 13) {
-                                        setphonenumberError("Phone Number must less than 13 Digit")
-                                        setcontinuebutton(true)
-                                    }
-                                    else {
-                                        setphonenumberError("")
-                                        setcontinuebutton(false)
-                                    }
-                                    setphonenumber(phonenumber)
-
-                                }}
-                                value={phonenumber}
-                            />
-                        </View>
-                        <Text style={styles.error}>{phonenumberError}</Text>
-                        <Text style={styles.labelchangeprofilepicture}>Change Profile Picture</Text>
+                        }}
+                        value={phonenumber}
+                    />
+                </View>
+                <Text style={styles.error}>{phonenumberError}</Text>
+                {/* <Text style={styles.labelchangeprofilepicture}>Change Profile Picture</Text>
                         <TouchableOpacity>
                             <ImageBackground style={styles.imagecontainer} source={{ uri: image }}>
                                 <ChangePictureButton style={styles.changepicturebutton} onPress={choosePhotoLibrary} />
                             </ImageBackground>
-                        </TouchableOpacity>
-                    </View>
-                    <ContinueButton
-                        style={styles.continuebutton}
-                        onPress={submit}
-                        disabled={continuebutton}
-                    />
-                </View>
-                <Auth loadingindicator={true}/>
-            </ScrollView>
-        </SafeAreaView>
+                        </TouchableOpacity> */}
+            </View>
+            <ContinueButton
+                style={styles.continuebutton}
+                onPress={submit}
+                disabled={continuebutton}
+            />
+            <Auth loadingindicator={true} />
+        </View>
+
     )
 }
 

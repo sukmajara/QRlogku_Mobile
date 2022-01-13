@@ -38,8 +38,6 @@ const styles = StyleSheet.create({
         color: 'black',
         marginLeft:windowWidth*0.07,
         marginTop: windowHeight*0.05
-        
-        
     },
     
   

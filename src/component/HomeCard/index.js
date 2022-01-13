@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { Dimensions, FlatList, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import CheckBox from '@react-native-community/checkbox';
+import { Dimensions, FlatList, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { IconFirefox, IconChrome, DeleteButton } from "../../asset";
 import { useState } from 'react';
+import { blue_main, second_color } from '../../utils/constant'
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 
@@ -57,36 +57,12 @@ const HomeCard = () => {
             })
                 .then((response) => response.json())
                 .then((result) => {
-                    // console.log(result)
+
                 })
         } catch (error) {
             console.warn(error)
         }
     }
-
-    // const status = async (id, status) => {
-    //     const tokenJWT = await SecureStore.getItemAsync("token")
-    //     try {
-    //         fetch('http://192.168.0.10:2030/mobile/changestatus', {
-    //             method: 'PATCH',
-    //             headers: {
-    //                 Authorization: "Bearer " + tokenJWT,
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 clientId: id,
-    //                 status: status
-    //             })
-    //         })
-    //             .then((response) => response.json())
-    //             .then((result) => {
-    //                 // console.log(result)
-    //             })
-    //     } catch (error) {
-    //         console.warn(error)
-    //     }
-    // }
 
     const Icon = ({ title }) => {
         if (title === 'firefox') return <IconFirefox />
@@ -131,36 +107,42 @@ const HomeCard = () => {
                 renderItem={({ item }) => {
                     return (
                         <View style={styles.component}>
-                            <View style={styles.card}>
-                                <View style={styles.cardtitle}>
-                                    <TouchableOpacity style={styles.loginbutton} onPress={() => {
-                                        navigation.navigate('ScanQRlogin', { item })
-                                    }}>
-                                        {/* <Icon title={'chrome'} /> */}
-                                        <Text style={styles.name}>{item.clientInfo}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <TouchableOpacity style={styles.deletcontainer} onPress={() => {
-                                    // status(item.clientId, item.status);
+                            <View style={styles.cardtitle}>
+                                <Text style={styles.name}>{item.clientInfo}</Text>
+                            </View>
+                            {/* <TouchableOpacity style={styles.deletcontainer} onPress={() => {
                                     terminate(item.clientId);
                                     Getinfo();
                                 }}>
                                     <View>
-                                        <Icon title={'delete'} />
+                                    <Icon title={'delete'} />
                                     </View>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
-                                <Text style={styles.username}>{item.clientId}</Text>
-                                <Text style={styles.login}>{item.status}</Text>
+                                </TouchableOpacity> */}
 
+                            <Text style={styles.username}>{item.clientId}</Text>
+
+                            <View style={styles.card}>
+                                    <TouchableOpacity style={styles.loginbutton} onPress={() => {
+                                        navigation.navigate('ScanQRlogin', { item })
+                                    }}>
+                                        <View style={styles.buttonLogin}>
+                                            <Text style={styles.logintext}>Login</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    
+                                    <TouchableOpacity style={styles.historybutton} onPress={() => {
+                                        navigation.navigate('History', { item })
+                                    }}>
+                                        <View style={styles.Buttonhistory}>
+                                            <Text style={styles.logintext}>History</Text>
+                                        </View>
+                                    </TouchableOpacity>
                             </View>
 
+                            <Text style={styles.login}>{item.status}</Text>
                         </View>
                     )
                 }}>
-                <View style={styles.cardcomponent}>
-                </View>
             </FlatList>
         </View >
     )
@@ -212,9 +194,6 @@ const styles = StyleSheet.create({
         width: "100%"
 
     },
-    loginbutton: {
-        flexDirection: 'row',
-    },
     deletcontainer: {
         alignSelf: 'flex-end',
         marginRight: 10,
@@ -222,18 +201,18 @@ const styles = StyleSheet.create({
     },
     card: {
         flexDirection: "row",
+        marginLeft:26
     },
     cardtitle: {
         marginTop: 20,
         flexDirection: 'row',
-        alignSelf: 'center',
         flex: 1
-
+        
     },
     checkbox: {
         marginRight: 5,
         alignSelf: 'center'
-
+        
     },
     name: {
         fontFamily: 'Arimo-Regular',
@@ -265,7 +244,34 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: '#CDCBCB',
         alignSelf: 'center',
-
+        
+    },
+    loginbutton: {
+        flexDirection: 'row',
+    },
+    historybutton: {
+        flexDirection: 'row',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+    },
+    buttonLogin: {
+        width: 100,
+        borderRadius: 10,
+        backgroundColor: blue_main,
+        marginBottom: 5,
+    },
+    Buttonhistory: {
+        width: 100,
+        borderRadius: 10,
+        backgroundColor: blue_main,
+        marginBottom: 5,
+        marginLeft:100
+    },
+    logintext: {
+        color: 'white',
+        alignSelf: 'center'
     }
-
+    
+    
 })

@@ -13,6 +13,8 @@ import Welcome from "./Welcome";
 import OTP from "./OTP";
 import MenuQr from "./MenuQR";
 import ScanQRlogin from "./ScanQRlogin";
+import History from "./History";
+
 
 
 export {
@@ -30,5 +32,6 @@ export {
     Register,
     Welcome,
     OTP,
-    MenuQr
+    MenuQr,
+    History
 };

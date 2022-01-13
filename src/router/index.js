@@ -17,7 +17,8 @@ import {
     OTPVerification,
     Welcome,
     OTP,
-    MenuQr,    
+    MenuQr, 
+    History   
 } from '../pages';
 import { ButtomNavigation } from '../component';
 
@@ -51,6 +52,7 @@ const Router = () => {
             <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }} />
             <Stack.Screen name="ChangeProfile" component={ChangeProfile} options={{ headerShown: false }} />
             <Stack.Screen name="ActiveDevice" component={ActiveDevice} options={{ headerShown: false }} />
+            <Stack.Screen name="History" component={History} options={{ headerShown: false }} />
             <Stack.Screen name="MainApp" component={MainApp} options={{ headerShown: false }} />
 
         </Stack.Navigator>
