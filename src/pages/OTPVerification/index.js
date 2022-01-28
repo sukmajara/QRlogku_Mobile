@@ -32,7 +32,8 @@ const OTPVerification = (props) => {
         } else {
             setcodeOTPerror("")
             try {
-                fetch('http://192.168.0.10:2030/user/register', {
+                fetch('https://qrlogku.herokuapp.com//register', {
+                // fetch('http://192.168.0.11:2030/user/register', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

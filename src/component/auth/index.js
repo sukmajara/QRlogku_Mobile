@@ -15,7 +15,8 @@ const Auth = ({ loadingindicator, screen }) => {
 
         if (tokenJWT) {
             try {
-                fetch('http://192.168.0.10:2030/user/session', {
+                fetch('https://qrlogku.herokuapp.com/user/session', {
+                // fetch('http://192.168.0.11:2030/user/session', {
                     headers: {
                         Authorization: 'Bearer ' + tokenJWT,
                         Accept: '*/*',

@@ -43,7 +43,8 @@ const ScanQRlogin = (props) => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.0.10:2030/mobile/login', {
+            fetch('https://qrlogku.herokuapp.com/mobile/login', {
+            // fetch('http://192.168.0.11:2030/mobile/login', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',

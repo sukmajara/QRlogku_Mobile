@@ -17,7 +17,8 @@ const Login = () => {
 
     const submit = async () => {
         try {
-            fetch('http://192.168.0.10:2030/user/login', {
+            fetch('https://qrlogku.herokuapp.com/user/login', {
+            // fetch('http://192.168.0.11:2030/user/login', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

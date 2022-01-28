@@ -36,7 +36,8 @@ const ChangeProfile = () => {
     const dataform = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
 
-        fetch('http://192.168.0.10:2030/user/profile', {
+        fetch('https://qrlogku.herokuapp.com/user/profile', {
+        // fetch('http://192.168.0.11:2030/user/profile', {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,
@@ -61,7 +62,8 @@ const ChangeProfile = () => {
         try {
             const tokenJWT = await SecureStore.getItemAsync("token")
 
-            fetch('http://192.168.0.10:2030/user/changeprofile', {
+            fetch('https://qrlogku.herokuapp.com/user/changeprofile', {
+            // fetch('http://192.168.0.11:2030/user/changeprofile', {
                 method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',

@@ -16,7 +16,8 @@ const History = (props) => {
 
     const GetHistory = async () => {
         const tokenJWT = await SecureStore.getItemAsync("token")
-        fetch('http://192.168.0.10:2030/mobile/history/' + clientId, {
+        fetch('https://qrlogku.herokuapp.com/mobile/history/' + clientId, {
+        // fetch('http://192.168.0.11:2030/mobile/history/' + clientId, {
             method: 'GET',
             headers: {
                 Authorization: "Bearer " + tokenJWT,
@@ -38,7 +39,8 @@ const History = (props) => {
     const terminate = async (id) => {
         const tokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.0.10:2030/mobile/terminate', {
+            fetch('https://qrlogku.herokuapp.com/mobile/terminate', {
+            // fetch('http://192.168.0.11:2030/mobile/terminate', {
                 method: 'DELETE',
                 headers: {
                     Authorization: "Bearer " + tokenJWT,

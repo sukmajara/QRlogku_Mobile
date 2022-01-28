@@ -35,7 +35,8 @@ const ChangePassword = () => {
             try {
                 const tokenJWT = await SecureStore.getItemAsync("token")
 
-                fetch('http://192.168.0.10:2030/user/changepassword', {
+                fetch('https://qrlogku.herokuapp.com/user/changepassword', {
+                // fetch('http://192.168.0.11:2030/user/changepassword', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

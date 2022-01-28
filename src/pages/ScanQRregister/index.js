@@ -44,7 +44,8 @@ const ScanQRregister = () => {
     const checkid = async (id) => {
         const TokenJWT = await SecureStore.getItemAsync("token")
         try {
-            fetch('http://192.168.0.10:2030/mobile/register', {
+            fetch('https://qrlogku.herokuapp.com/mobile/register', {
+            // fetch('http://192.168.0.11:2030/mobile/register', {
                 method: 'POST',
                 headers: {
                     Accept: '*/*',
