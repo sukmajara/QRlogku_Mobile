@@ -39,7 +39,38 @@ const Register = () => {
             setconfirmpasswordError('Field Confirm Password must be filled')
         }
         else {
-            navigation.navigate('OTPVerification', { name: name, email: email, password: password, phonenumber: phonenumber, OTPcode: 123456 })
+            // navigation.navigate('OTPVerification', { name: name, email: email, password: password, phonenumber: phonenumber, OTPcode: 123456 })
+            try {
+                fetch('https://qrlogku.herokuapp.com/user/register', {
+                // fetch('http://192.168.0.11:2030/user/register', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        phoneNumber: phonenumber,
+                        password: password
+                    })
+                })
+                    .then((response) => {
+                        response.json()
+                        const status = response.status
+
+                        if (status == 200) {
+                            navigation.navigate("Login")
+                        }
+                        else(
+                            navigation.navigate("Register")
+                        )
+
+                    })
+                   
+            } catch (error) {
+                console.warn(error)
+            }
         }
     }
     return (

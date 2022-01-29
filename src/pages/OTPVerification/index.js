@@ -31,36 +31,36 @@ const OTPVerification = (props) => {
             setcodeOTPerror("INVALID OTP CODE")
         } else {
             setcodeOTPerror("")
-            try {
-                fetch('https://qrlogku.herokuapp.com/register', {
-                // fetch('http://192.168.0.11:2030/user/register', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        email: email,
-                        phoneNumber: phonenumber,
-                        password: password
-                    })
-                })
-                    .then((response) => {
-                        response.json()
-                        const status = response.status
+            // try {
+            //     fetch('https://qrlogku.herokuapp.com/register', {
+            //     // fetch('http://192.168.0.11:2030/user/register', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify({
+            //             name: name,
+            //             email: email,
+            //             phoneNumber: phonenumber,
+            //             password: password
+            //         })
+            //     })
+            //         .then((response) => {
+            //             response.json()
+            //             const status = response.status
 
-                        if (status == 200) {
-                            navigation.navigate("Login")
-                        }
-                        else(
-                            navigation.navigate("Register")
-                        )
-                    })
+            //             if (status == 200) {
+            //                 navigation.navigate("Login")
+            //             }
+            //             else(
+            //                 navigation.navigate("Register")
+            //             )
+            //         })
                    
-            } catch (error) {
-                console.warn(error)
-            }
+            // } catch (error) {
+            //     console.warn(error)
+            // }
         }
     }
 
