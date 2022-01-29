@@ -13,6 +13,8 @@ const Register = () => {
     const [password, setpassword] = useState("")
     const [confirmpassword, setconfirmpassword] = useState("")
 
+    const [Error, setError] = useState("")
+
     const [nameError, setnameError] = useState("")
     const [phonenumberError, setphonenumberError] = useState("")
     const [passwordError, setpasswordError] = useState("")
@@ -42,7 +44,7 @@ const Register = () => {
             // navigation.navigate('OTPVerification', { name: name, email: email, password: password, phonenumber: phonenumber, OTPcode: 123456 })
             try {
                 fetch('https://qrlogku.herokuapp.com/user/register', {
-                // fetch('http://192.168.0.11:2030/user/register', {
+                    // fetch('http://192.168.0.11:2030/user/register', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -55,19 +57,17 @@ const Register = () => {
                         password: password
                     })
                 })
-                    .then((response) => {
+                    .then((response) =>
                         response.json()
-                        const status = response.status
-
-                        if (status == 201) {
+                    ).then((result) => {
+                        if (result.message == "Email sudah terdaftar.") {
+                            setError(result.message);
+                        }
+                        else {
                             navigation.navigate("Login")
                         }
-                        else(
-                            navigation.navigate("Register")
-                        )
-
                     })
-                   
+
             } catch (error) {
                 console.warn(error)
             }
@@ -82,6 +82,7 @@ const Register = () => {
                     </TouchableOpacity>
                     <Image source={LogoApps} style={styles.logo} />
                     <View style={styles.form}>
+                        <Text style={styles.error}>{Error}</Text>
                         <Text style={styles.labelname}>Full Name</Text>
                         <TextInput
                             style={styles.name}
