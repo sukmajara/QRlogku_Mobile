@@ -60,6 +60,7 @@ const ScanQRregister = () => {
                     response.json()
                     const status = response.status
                     if (status == 200) {
+                        setonread(true)
                         navigation.navigate("Home")
                     } else {
                         setscan('QR code not valid or Make sure QR code is for Register')

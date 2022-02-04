@@ -37,6 +37,7 @@ const ScanQRlogin = (props) => {
         if (onread) {
             setonread(false);
             checkid(qr.data);
+
         }
     }
 
@@ -60,10 +61,13 @@ const ScanQRlogin = (props) => {
                     response.json()
                     const status = response.status
                     if (status == 200) {
+                        setonread(true)
                         navigation.navigate("Home")
                     }
                     else {
                         setqrerror("QR code not valid or Make sure QR code is for login")
+                        setonread(true)
+
                     }
                 })
         } catch (error) {

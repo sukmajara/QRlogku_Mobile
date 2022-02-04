@@ -40,7 +40,6 @@ const HomeCard = () => {
         const home = navigation.addListener("focus", () => {
             Getinfo();
         });
-
     });
 
     const terminate = async (id) => {

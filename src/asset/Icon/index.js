@@ -26,14 +26,6 @@ import BackbuttonWhite from './BackbuttonWhite.svg';
 import SignoutButton from './SignoutButton.svg';
 
 
-
-
-
-
-
-
-
-
 export {
     Iconhome, 
     IconhomeAktif, 
@@ -60,5 +52,5 @@ export {
     TurnoffFlash,
     TurnonFlash,
     BackbuttonWhite,
-    SignoutButton
+    SignoutButton,
 };

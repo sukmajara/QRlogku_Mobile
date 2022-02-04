@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react'
 import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
-import { LogoApps, SplashBG } from '../../asset/Images'
+import { LogoAppsWhite, SplashBG } from '../../asset/Images'
 
 const Splash = ({navigation}) => {
      useEffect(()=>{
@@ -11,7 +11,7 @@ const Splash = ({navigation}) => {
      
     return (
         <ImageBackground source={SplashBG} style={styles.background}>   
-        <Image source={LogoApps} style={styles.logo}/>
+        <Image source={LogoAppsWhite} style={styles.logo}/>
         </ImageBackground>
     )
 }
@@ -24,8 +24,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent : 'center' 
     },
-    logo:{
-        width:85,
-        height:25
-    }
+    
 })

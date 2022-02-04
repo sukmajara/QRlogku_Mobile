@@ -5,15 +5,15 @@ import GradientBG from "./GradientBG.png"
 import HeaderCardProfile from "./headerprofile.png"
 import ProfilePicture from "./profilepicture.png";
 import BottomNavigationBG from './BottomNavigationBG.png';
-
-
-
+import LogoAppsWhite from './LOGO_WHITE.png';
 
 export {
     LogoApps, 
+    LogoAppsWhite, 
     SplashBG,
     HeaderCard, 
     GradientBG,
     HeaderCardProfile, 
     ProfilePicture, 
-    BottomNavigationBG};
+    BottomNavigationBG,
+};
