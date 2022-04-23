@@ -14,6 +14,9 @@ import OTP from "./OTP";
 import MenuQr from "./MenuQR";
 import ScanQRlogin from "./ScanQRlogin";
 import History from "./History";
+import Pin from "./Pin";
+import PinChange from "./PinChange";
+
 
 
 
@@ -33,5 +36,7 @@ export {
     Welcome,
     OTP,
     MenuQr,
-    History
+    History,
+    Pin,
+    PinChange
 };

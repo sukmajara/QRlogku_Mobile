@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { ImageBackground, StyleSheet, Text, View, Image, Dimensions } from 'react-native'
-import { HeaderCardProfile, ProfilePicture } from "../../asset";
+import { ImageBackground, StyleSheet, Text, View, Dimensions } from 'react-native'
+import { HeaderCardProfile } from "../../asset";
 import { useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { useNavigation } from "@react-navigation/core";
@@ -24,7 +24,15 @@ const HeaderProfile = () => {
                 Accept: "*/*",
             },
         })
-            .then((response) => response.json())
+            .then((response) => {
+                const status = response.status
+                if (status == 401) {
+                    navigation.navigate("Pin");
+                }
+                else{
+                  return  response.json();
+                }
+            })
             .then((result) => setData(result))
             .catch((error) => console.error(error))
     }
@@ -62,7 +70,6 @@ const styles = StyleSheet.create({
         width: 350,
         height: 180,
         flexDirection: 'row'
-
 
     },
     card:{

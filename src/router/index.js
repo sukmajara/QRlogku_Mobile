@@ -18,7 +18,9 @@ import {
     Welcome,
     OTP,
     MenuQr, 
-    History   
+    History,
+    Pin,
+    PinChange
 } from '../pages';
 import { ButtomNavigation } from '../component';
 
@@ -53,8 +55,9 @@ const Router = () => {
             <Stack.Screen name="ChangeProfile" component={ChangeProfile} options={{ headerShown: false }} />
             <Stack.Screen name="ActiveDevice" component={ActiveDevice} options={{ headerShown: false }} />
             <Stack.Screen name="History" component={History} options={{ headerShown: false }} />
+            <Stack.Screen name="Pin" component={Pin} options={{ headerShown: false }} />
+            <Stack.Screen name="PinChange" component={PinChange} options={{ headerShown: false }} />
             <Stack.Screen name="MainApp" component={MainApp} options={{ headerShown: false }} />
-
         </Stack.Navigator>
     )
 }

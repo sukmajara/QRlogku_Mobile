@@ -23,7 +23,15 @@ const HeaderHome = () => {
                 Accept: "*/*",
             },
         })
-            .then((response) => response.json())
+            .then((response) => {
+                const status = response.status
+                if (status == 401) {
+                    navigation.navigate("Pin");
+                }
+                else{
+                  return  response.json();
+                }
+            })
             .then((result) => setData(result))
             .catch((error) => console.error(error))
     }

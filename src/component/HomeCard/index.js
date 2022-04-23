@@ -31,7 +31,6 @@ const HomeCard = () => {
             .then((response) => response.json())
             .then((result) => {
                 setdata(result.dataUser)
-
             })
             .catch((error) => console.error(error))
 
@@ -83,9 +82,11 @@ const HomeCard = () => {
     }
 
     const [refreshing, setRefreshing] = React.useState(false);
+
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
     }
+    
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         Getinfo();

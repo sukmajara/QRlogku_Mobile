@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { BackButton, CreateAccountButton, ResendButton } from "../../asset";
 import { useNavigation } from '@react-navigation/native';
 
 
 const OTPVerification = (props) => {
+
     const navigation = useNavigation();
     const [name, setname] = useState(props.route.params.name)
     const [email, setemail] = useState(props.route.params.email)
@@ -57,7 +58,7 @@ const OTPVerification = (props) => {
             //                 navigation.navigate("Register")
             //             )
             //         })
-                   
+
             // } catch (error) {
             //     console.warn(error)
             // }

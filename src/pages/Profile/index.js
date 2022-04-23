@@ -3,8 +3,11 @@ import { StyleSheet, Text, View, title, Dimensions, ScrollView } from 'react-nat
 import Auth from '../../component/auth'
 import ButtonIconProfile from '../../component/ButtonIconProfile'
 import HeaderProfile from '../../component/HeaderProfile'
+import { useState } from 'react';
+
 
 const Profile = () => {
+
     return (
         <View style={styles.page}>
             <Text style={styles.pagename}>Profile</Text>
@@ -12,9 +15,10 @@ const Profile = () => {
             <View>
                 <ButtonIconProfile title={'ChangeProfile'} />
                 <ButtonIconProfile title={'ChangePassword'} />
+                <ButtonIconProfile title={'ChangePinButton'} />
                 <ButtonIconProfile title={'Signout'} />
                 {/* <ButtonIconProfile title={'ActiveDevice'} /> */}
-                <Auth loadingindicator={true}/>
+                <Auth loadingindicator={true} />
 
             </View>
         </View>
@@ -36,9 +40,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 32,
         color: 'black',
-        marginLeft:windowWidth*0.07,
-        marginTop: windowHeight*0.05
+        marginLeft: windowWidth * 0.07,
+        marginTop: windowHeight * 0.05
     },
-    
-  
+
+
 })

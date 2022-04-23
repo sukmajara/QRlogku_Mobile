@@ -15,10 +15,12 @@ const Login = () => {
     const [continuebutton, setcontinuebutton] = useState()
     const [inputerror, setinputerror] = useState("")
 
+
+
     const submit = async () => {
         try {
             fetch('https://qrlogku.herokuapp.com/user/login', {
-            // fetch('http://192.168.0.11:2030/user/login', {
+                // fetch('http://192.168.0.11:2030/user/login', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -35,7 +37,7 @@ const Login = () => {
                         SecureStore.setItemAsync("token", responseJson.token)
                         navigation.navigate('MainApp')
                     } else {
-                        setinputerror('Email or Password Wrong')
+                        setinputerror(responseJson.message)
                     }
                 })
         } catch (error) {
@@ -87,7 +89,7 @@ const Login = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-                    <Auth loadingIndicator={false} screen={"MainApp"}/>
+            <Auth loadingIndicator={false} screen={"MainApp"} />
         </View>
 
     )

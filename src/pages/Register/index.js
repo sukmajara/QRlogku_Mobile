@@ -12,6 +12,7 @@ const Register = () => {
     const [phonenumber, setphonenumber] = useState("")
     const [password, setpassword] = useState("")
     const [confirmpassword, setconfirmpassword] = useState("")
+    const [pin, setpin] = useState("")
 
     const [Error, setError] = useState("")
 
@@ -20,6 +21,7 @@ const Register = () => {
     const [passwordError, setpasswordError] = useState("")
     const [confirmpasswordError, setconfirmpasswordError] = useState("")
     const [emailError, setemailError] = useState("")
+    const [pinError, setpinError] = useState("")
 
     const [continuebutton, setcontinuebutton] = useState(false)
 
@@ -41,7 +43,7 @@ const Register = () => {
             setconfirmpasswordError('Field Confirm Password must be filled')
         }
         else {
-            // navigation.navigate('OTPVerification', { name: name, email: email, password: password, phonenumber: phonenumber, OTPcode: 123456 })
+            // navigation.navigate('Pin', { name: name, email: email, password: password, phonenumber: phonenumber})
             try {
                 fetch('https://qrlogku.herokuapp.com/user/register', {
                     // fetch('http://192.168.0.11:2030/user/register', {
@@ -49,25 +51,31 @@ const Register = () => {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
+                        
                     },
                     body: JSON.stringify({
                         name: name,
                         email: email,
                         phoneNumber: phonenumber,
-                        password: password
+                        password: password,
+                        userPin: pin
                     })
                 })
-                    .then((response) =>
-                        response.json()
-                    ).then((result) => {
-                        if (result.message == "Email sudah terdaftar.") {
-                            setError(result.message);
+                    .then((response) => {
+                        const status = response.status
+                        if (status == 201) {
+                            navigation.navigate("MainApp")
                         }
-                        else {
+                        else if (status == 400) {
+                            setError("Password too weak")
+                        }
+                        else if (status == 409) {
+                            setError("Email Already registered")
+                        }
+                        else{
                             navigation.navigate("Login")
                         }
                     })
-
             } catch (error) {
                 console.warn(error)
             }
@@ -198,6 +206,31 @@ const Register = () => {
                             value={confirmpassword}
                         />
                         <Text style={styles.error}>{confirmpasswordError}</Text>
+                        <View style = {styles.pincontainer}>
+
+                        <Text style={styles.labelPin}>PIN</Text>
+                        </View>
+                        <TextInput
+                            style={styles.pin}
+                            placeholder={'Enter PIN'}
+                            secureTextEntry={true}
+                            textAlign={'center'}
+                            maxLength={6}
+                            keyboardType={'numeric'}
+                            onChangeText={(pin) => {
+                                if (pin.length<6) {
+                                    setpinError('Pin Must be 6 Number')
+                                    setcontinuebutton(true)
+                                }
+                                else {
+                                    setpinError("")
+                                    setcontinuebutton(false)
+                                }
+                                setpin(pin)
+                            }}
+                            value={pin}
+                        />
+                        <Text style={styles.error}>{pinError}</Text>
                     </View>
 
                     <ContinueButton
@@ -291,8 +324,20 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 1,
     },
+    pin: {
+        fontFamily: 'Arimo-Regular',
+        fontSize: 25,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+    },
     labelconfirmpassword: {
         fontFamily: 'Arimo-Regular',
+        marginTop: 30,
+        fontWeight: 'bold'
+    },
+    labelPin: {
+        fontFamily: 'Arimo-Regular',
+        fontSize: 30,
         marginTop: 30,
         fontWeight: 'bold'
     },
@@ -312,6 +357,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 14,
         color: 'red',
+        alignSelf: 'center'
+    },
+    pincontainer: {
         alignSelf: 'center'
     },
     errorcontainer: {

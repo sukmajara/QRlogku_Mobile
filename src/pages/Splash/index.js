@@ -3,9 +3,10 @@ import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { LogoAppsWhite, SplashBG } from '../../asset/Images'
 
 const Splash = ({navigation}) => {
+
      useEffect(()=>{
          setTimeout(()=>{
-             navigation.replace('MainApp');
+             navigation.replace('Pin');
          },3000)
      },[navigation])
      

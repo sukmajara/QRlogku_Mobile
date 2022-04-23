@@ -24,6 +24,9 @@ import TurnoffFlash from './TurnoffFlash.svg';
 import TurnonFlash from './TurnonFlash.svg';
 import BackbuttonWhite from './BackbuttonWhite.svg';
 import SignoutButton from './SignoutButton.svg';
+import CreatePinButton from './CreatePinButton.svg';
+import ChangePinButton from './ChangePinButton.svg';
+import SubmitButton from './SubmitButton.svg';
 
 
 export {
@@ -53,4 +56,7 @@ export {
     TurnonFlash,
     BackbuttonWhite,
     SignoutButton,
+    ChangePinButton,
+    CreatePinButton,
+    SubmitButton
 };
