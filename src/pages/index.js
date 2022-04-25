@@ -38,5 +38,5 @@ export {
     MenuQr,
     History,
     Pin,
-    PinChange
+    PinChange,
 };

@@ -8,14 +8,12 @@ import Auth from '../../component/auth'
 import * as SecureStore from 'expo-secure-store';
 
 
-const Login = () => {
+const Login = (props) => {
     const navigation = useNavigation();
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
     const [continuebutton, setcontinuebutton] = useState()
     const [inputerror, setinputerror] = useState("")
-
-
 
     const submit = async () => {
         try {
@@ -33,11 +31,13 @@ const Login = () => {
             })
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    if (responseJson.token) {
+                    console.log(responseJson)
+                    if (!responseJson.token) {
+                        setinputerror(responseJson.message)
+                    }
+                    else {
                         SecureStore.setItemAsync("token", responseJson.token)
                         navigation.navigate('MainApp')
-                    } else {
-                        setinputerror(responseJson.message)
                     }
                 })
         } catch (error) {

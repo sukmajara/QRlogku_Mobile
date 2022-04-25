@@ -25,11 +25,11 @@ const HeaderHome = () => {
         })
             .then((response) => {
                 const status = response.status
-                if (status == 401) {
-                    navigation.navigate("Pin");
+                if (status == 200) {
+                    return  response.json();
                 }
                 else{
-                  return  response.json();
+                    return navigation.navigate("Pin");
                 }
             })
             .then((result) => setData(result))

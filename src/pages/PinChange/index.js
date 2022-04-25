@@ -16,37 +16,44 @@ const Pin = () => {
     const [continuebutton, setcontinuebutton] = useState(true);
 
     const submit = async () => {
-        const tokenJWT = await SecureStore.getItemAsync("token")
+        if (currPin == "") {
+            setcurrPinError("Field Current PIN Must be filled")
+        } else if (newPin == "") {
+            setnewPinError("Field New PIN Must be filled")
+        }
+        else {
+            const tokenJWT = await SecureStore.getItemAsync("token")
 
-        fetch('https://qrlogku.herokuapp.com/user/changepin', {
-            // fetch('http://192.168.0.11:2030/user/profile', {
-            method: 'PATCH',
-            headers: {
-                'Authorization': "Bearer " + tokenJWT,
-                'Accept': "*/*",
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                currentUserPin: currPin,
-                newUserPin: newPin
+            fetch('https://qrlogku.herokuapp.com/user/changepin', {
+                // fetch('http://192.168.0.11:2030/user/profile', {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': "Bearer " + tokenJWT,
+                    'Accept': "*/*",
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    currentUserPin: currPin,
+                    newUserPin: newPin
+                })
             })
-        })
-            .then((response) => {
-                const status = response.status
+                .then((response) => {
+                    const status = response.status
 
-                if (status == 200) {
-                    navigation.navigate("Profile")
-                } else if (status == 400){
-                    setError("Your new PIN is same with your current PIN.")
-                }
-                else if (status==401){
-                    setError("Wrong Pin.")
-                }
-            })
-            .catch((error) => console.error(error))
+                    if (status == 200) {
+                        navigation.navigate("Profile")
+                    } else if (status == 400) {
+                        setError("Your new PIN is same with your current PIN.")
+                    }
+                    else if (status == 401) {
+                        setError("Wrong Pin.")
+                    }
+                })
+                .catch((error) => console.error(error))
+        }
     }
 
-    
+
     return (
 
         <View style={styles.page}>

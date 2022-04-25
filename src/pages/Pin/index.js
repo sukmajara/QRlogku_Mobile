@@ -16,38 +16,40 @@ const Pin = (props) => {
 
 
     const submit = async () => {
-        const tokenJWT = await SecureStore.getItemAsync("token")
+        if (Pin == "") {
+            setError("File PIN must be filled")
+        } else {
+            const tokenJWT = await SecureStore.getItemAsync("token")
 
-        fetch('https://qrlogku.herokuapp.com/user/validatepin', {
-            // fetch('http://192.168.0.11:2030/user/profile', {
-            method: 'POST',
-            headers: {
-                'Authorization': "Bearer " + tokenJWT,
-                'Accept': "*/*",
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userPin: Pin
+            fetch('https://qrlogku.herokuapp.com/user/validatepin', {
+                // fetch('http://192.168.0.11:2030/user/profile', {
+                method: 'POST',
+                headers: {
+                    'Authorization': "Bearer " + tokenJWT,
+                    'Accept': "*/*",
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userPin: Pin
+                })
             })
-        })
-            .then((response) => {
-                const status = response.status
+                .then((response) => {
+                    const status = response.status
 
-                if (status == 200) {
-                    navigation.navigate("MainApp")
-                } else {
-                    setError("Wrong Pin.")
-                }
-            })
-            .catch((error) => console.error(error))
+                    if (status == 200) {
+                        navigation.navigate("MainApp")
+                    } else {
+                        setError("Wrong Pin.")
+                    }
+                })
+                .catch((error) => console.error(error))
+        }
     }
 
     return (
 
         <View style={styles.page}>
-            {/* <TouchableOpacity style={styles.backbutton}>
-                <BackButton onPress={() => navigation.goBack()} />
-            </TouchableOpacity> */}
+
             <Text style={styles.otpverification}>Please Enter PIN </Text>
             <Text style={styles.error}>{Error}</Text>
             <TextInput

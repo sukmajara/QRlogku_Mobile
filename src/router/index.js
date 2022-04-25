@@ -20,7 +20,7 @@ import {
     MenuQr, 
     History,
     Pin,
-    PinChange
+    PinChange,
 } from '../pages';
 import { ButtomNavigation } from '../component';
 

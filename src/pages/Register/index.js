@@ -25,6 +25,8 @@ const Register = () => {
 
     const [continuebutton, setcontinuebutton] = useState(false)
 
+    const verify = "Please Verify Your Email!"
+
 
     const submit = () => {
         if (name == "") {
@@ -42,6 +44,9 @@ const Register = () => {
         else if (confirmpassword == "") {
             setconfirmpasswordError('Field Confirm Password must be filled')
         }
+        else if (pin == "") {
+            setpinError('Field Pin must be filled')
+        }
         else {
             // navigation.navigate('Pin', { name: name, email: email, password: password, phonenumber: phonenumber})
             try {
@@ -51,7 +56,7 @@ const Register = () => {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
-                        
+
                     },
                     body: JSON.stringify({
                         name: name,
@@ -64,7 +69,7 @@ const Register = () => {
                     .then((response) => {
                         const status = response.status
                         if (status == 201) {
-                            navigation.navigate("MainApp")
+                            navigation.navigate('Login')
                         }
                         else if (status == 400) {
                             setError("Password too weak")
@@ -72,9 +77,7 @@ const Register = () => {
                         else if (status == 409) {
                             setError("Email Already registered")
                         }
-                        else{
-                            navigation.navigate("Login")
-                        }
+                        
                     })
             } catch (error) {
                 console.warn(error)
@@ -206,9 +209,9 @@ const Register = () => {
                             value={confirmpassword}
                         />
                         <Text style={styles.error}>{confirmpasswordError}</Text>
-                        <View style = {styles.pincontainer}>
+                        <View style={styles.pincontainer}>
 
-                        <Text style={styles.labelPin}>PIN</Text>
+                            <Text style={styles.labelPin}>PIN</Text>
                         </View>
                         <TextInput
                             style={styles.pin}
@@ -218,7 +221,7 @@ const Register = () => {
                             maxLength={6}
                             keyboardType={'numeric'}
                             onChangeText={(pin) => {
-                                if (pin.length<6) {
+                                if (pin.length < 6) {
                                     setpinError('Pin Must be 6 Number')
                                     setcontinuebutton(true)
                                 }
